@@ -1,0 +1,12 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+#root-game {
+  position: relative;
+  border: 1px solid black;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 200px;
+}
