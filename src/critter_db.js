@@ -1,9 +1,17 @@
 export const critterArray = {
-  1: {
-    name: "monster1",
+  0: {
+    name: "test_monster",
     src: "assets/critters/monster1.png",
-    width: 50,
-    height: 50,
+    width: 100,
+    height: 100,
     health: 10,
+  },
+  1: {
+    name: "Hardboiled Octopus",
+    src: "assets/critters/hardboiled_octopus.png",
+    width: 100,
+    height: 100,
+    health: 10,
+    moveSpeed: 3,
   }
 }
