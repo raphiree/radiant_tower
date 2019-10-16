@@ -13,3 +13,12 @@ on leftpress
   mobs move right
   background frame -
   character turns left
+
+Main Page
+  Controls
+  Game logic
+  Render
+
+Character Class
+Background Class
+Creature Class

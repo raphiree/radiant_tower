@@ -1,44 +1,96 @@
 import './sass/index.scss';
+import Environment from './environment';
+import Character from './character';
+import Critter from './critter';
 
-const root = document.getElementById('root-game');
-const ctx = root.getContext("2d");
+const canvas = document.getElementById('root-game');
+const ctx = canvas.getContext("2d");
 
-function drawStair() {
-  ctx.clearRect(0, 0, root.width, root.height);
+let stageProgress = 0;
+const moveSpeed = 10;
+let direction = 'neutral';
+let maxJumpHeight = 200;
+let jumpSpeed = 20;
+let fallSpeed = 10;
+let height = 0;
+let jumping = false;
+let falling = false;
+// Keyboard Controls
 
-  const stairs = new Image();
-  stairs.src = "assets/bg/bg_placeholder.png";
+let leftPressed = false;
+let rightPressed = false;
+let upPressed = false;
 
-  let bgFrame = 0;
-  if (Math.floor(mapPosition / 30) < 1) {
-    bgFrame = 0;
-  } else if (Math.floor(mapPosition / 30) < 2) {
-    bgFrame = 1;
-  } else {
-    bgFrame = 2;
-  }
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
 
-  stairs.onload = () => {
-    ctx.drawImage(stairs, bgFrame * 800, 0, 800, 475, 0, 0, 800, 475);
+function keyDownHandler(e) {
+  if (e.key === "Right" || e.key === "ArrowRight") {
+    rightPressed = true;
+    direction = "right";
+  } else if (e.key === "Left" || e.key === "ArrowLeft") {
+    leftPressed = true;
+    direction = "left";
+  } else if ((e.key === "Up" || e.key === "ArrowUp") && jumping === false && falling === false) {
+    upPressed = true;
+    // direction = "neutral";
   }
 }
 
-let rightPressed = false;
-let leftPressed = false;
-
-
-
-
-
-let mapPosition = 0;
-
-setInterval(() => {
-
-  if (mapPosition >= 60) {
-    mapPosition = 0;
+function keyUpHandler(e) {
+  if (e.key === "Right" || e.key === "ArrowRight") {
+    rightPressed = false;
+  } else if (e.key === "Left" || e.key === "ArrowLeft") {
+    leftPressed = false;
+  } else if (e.key === "Up" || e.key === "ArrowUp") {
+    upPressed = false;
   }
-  mapPosition += 1
-  drawStair();
-  console.log(mapPosition);
+}
 
-}, 33);
+// context, keyframe per 60 fps, display width, display height
+let floortiles = new Environment(ctx, 4, 800, 200);
+let mc = new Character(ctx, 4, 100, 100);
+
+function runGame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // move stage progression
+  if (rightPressed === true) {
+    stageProgress += moveSpeed;
+  } else if (leftPressed === true) {
+    stageProgress -= moveSpeed;
+  }
+  
+  // Jumping logic - character still jumps infinitely if up is held
+  if (upPressed === true && (jumping === false && falling === false)) {
+    jumping = true;
+    falling = true;
+  }
+  if (jumping === true) {
+    if (height <= maxJumpHeight) {
+      height += jumpSpeed;
+    } else {
+      jumping = false;
+    }
+  }
+  if (falling === true) {
+    if (height <= 0) {
+      height = 0;
+      falling = false;
+    } else {
+      height -= fallSpeed;
+    }
+  }
+
+  // pass in stage progress to background render
+  floortiles.render(stageProgress);
+
+  // render main character
+  mc.render(stageProgress, direction, height);
+
+  requestAnimationFrame(runGame);
+}
+
+runGame();
+
+
