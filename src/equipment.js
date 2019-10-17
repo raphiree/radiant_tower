@@ -2,7 +2,7 @@ class Equipment {
   constructor(ctx) {
     this.ctx = ctx;
     this.sprite = new Image();
-    this.sprite.src = "assets/equip/equipment-2x.png";
+    this.sprite.src = "assets/equip/rusty_crowbar-2x.png";
   }
 
   render(stageProgress, mcState, direction, height, recovery, hitStun) {

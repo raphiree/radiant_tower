@@ -12,6 +12,7 @@ export const critterArray = {
     width: 100,
     height: 100,
     health: 10,
+    hitbox: 50,
     moveSpeed: 3,
   }
 }

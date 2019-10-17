@@ -1,5 +1,5 @@
 import { critterArray } from './critter_db';
-import { stage1 } from './stage/1';
+import { stage1 } from '../stage/1';
 
 class Critter {
   constructor(ctx, critter) {
@@ -11,15 +11,24 @@ class Critter {
     this.yPos = critter.yPos;
   }
 
-  render(idleFrames) {
-    let spriteSheetXPos = Math.floor(idleFrames / 15) * this.critter.width;
-    this.ctx.drawImage(this.sprite, spriteSheetXPos, 0, 100, 100, this.xPos, this.yPos, 100, 100);
+  render(critter, idleFrames) {
+    let frames;
+    let spriteRow;
+    if (critter.critterState === 'neutral') {
+      frames = idleFrames;
+      spriteRow = 0;
+    } else if (critter.critterState === 'hit') {
+      frames = critter.critterHitstun;
+      spriteRow = 100;
+    }
+    let spriteSheetXPos = Math.floor(frames / 15) * this.critter.width;
+    this.ctx.drawImage(this.sprite, spriteSheetXPos, spriteRow, 100, 100, this.xPos, this.yPos, 100, 100);
   }
 }
 
 export function generateCritter(ctx, critter, idleFrames) {
   let spawn = new Critter(ctx, critter);
-  spawn.render(idleFrames);
+  spawn.render(critter, idleFrames);
 }
 
 export function checkSpawn(stageProgress) {
