@@ -4,6 +4,7 @@ import Character from './character';
 import { generateCritter, checkSpawn } from './critter';
 import { critterArray } from './critter_db';
 import { detectCollision } from './collision';
+import Equipment from './equipment';
 
 const canvas = document.getElementById('root-game');
 const ctx = canvas.getContext("2d");
@@ -12,6 +13,7 @@ let idleFrames = 0;
 let stageProgress = 0;
 const moveSpeed = 10;
 let mcState = 'neutral';
+let direction;
 let healthBar = '100';
 let maxJumpHeight = 200;
 let jumpSpeed = 20;
@@ -19,7 +21,8 @@ let fallSpeed = 10;
 let height = 0;
 let jumping = false;
 let falling = false;
-let hitStun = 0;
+let hitStun = 0; // returning to neutral from being hit
+let recovery = 0; // attack animation & return to neutral timer
 
 // Monster spawn check
 const spawned = []; // checks to see if a monster spawn has already been triggered
@@ -49,12 +52,17 @@ document.addEventListener("keyup", keyUpHandler, false);
 function keyDownHandler(e) {
   if (e.key === "Right" || e.key === "ArrowRight" || e.key === "d") {
     rightPressed = true;
-    if (mcState !== 'hit') { mcState = "right"; }
+    if (mcState !== 'hit') { direction = "right"; }
   } else if (e.key === "Left" || e.key === "ArrowLeft" || e.key === "a") {
     leftPressed = true;
-    if (mcState !== 'hit') { mcState = "left"; }
+    if (mcState !== 'hit') { direction = "left"; }
   } else if ((e.key === "Up" || e.key === "ArrowUp" || e.key === "w") && jumping === false && falling === false) {
     if (mcState !== 'hit') { upPressed = true; }
+  } else if (e.key === "f") {
+    if (mcState !== 'hit') { 
+      fPressed = true;
+      mcState = 'attacking'; 
+    }
   } else {
     console.log(e.key);
   }
@@ -68,13 +76,14 @@ function keyUpHandler(e) {
   } else if (e.key === "Up" || e.key === "ArrowUp" || e.key === "w") {
     upPressed = false;
   } else if (e.key === "f") {
-    fPressed = false;
+     fPressed = false 
   }
 }
 
 // context, keyframe per 60 fps, display width, display height
 let floortiles = new Environment(ctx, 4, 800, 200);
 let mc = new Character(ctx);
+let crowbar = new Equipment(ctx);
 
 function runGame() {
   idleFrames++;
@@ -109,6 +118,15 @@ function runGame() {
     onScreen.map(critter => {
       critter.xPos += (critterArray[critter.critterId].moveSpeed);
     })
+  }
+
+  // attack state
+  if (mcState === 'attacking') {
+    recovery++;
+    if (recovery >= 30) {
+      mcState = 'neutral';
+      recovery = 0;
+    }
   }
 
   // Remove critters moved past
@@ -164,7 +182,9 @@ function runGame() {
   };
 
   // render main character
-  mc.render(stageProgress, mcState, height, idleFrames);
+  mc.render(stageProgress, mcState, direction, height, recovery, hitStun);
+  crowbar.render(stageProgress, mcState, direction, height, recovery, hitStun);
+
   
   if (detectCollision(height, onScreen) && mcState !== 'hit') {
     mcState = 'hit';

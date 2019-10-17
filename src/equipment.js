@@ -1,8 +1,8 @@
-class Character {
+class Equipment {
   constructor(ctx) {
     this.ctx = ctx;
     this.sprite = new Image();
-    this.sprite.src = "assets/mc/mc-spritesheet-2x.png";
+    this.sprite.src = "assets/equip/equipment-2x.png";
   }
 
   render(stageProgress, mcState, direction, height, recovery, hitStun) {
@@ -10,7 +10,7 @@ class Character {
     // Walking left and right
     let spriteRow;
     let frames;
-    
+
     if (mcState === 'neutral') {
       frames = stageProgress % 240;
       if (direction === 'right') {
@@ -38,4 +38,4 @@ class Character {
   }
 }
 
-export default Character;
+export default Equipment;
