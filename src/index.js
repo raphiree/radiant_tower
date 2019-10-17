@@ -9,24 +9,36 @@ const canvas = document.getElementById('root-game');
 const ctx = canvas.getContext("2d");
 let idleFrames = 0;
 
-let stageProgress = 2500;
+let stageProgress = 0;
 const moveSpeed = 10;
-let direction = 'neutral';
+let mcState = 'neutral';
+let healthBar = '100';
 let maxJumpHeight = 200;
 let jumpSpeed = 20;
 let fallSpeed = 10;
 let height = 0;
 let jumping = false;
 let falling = false;
+let hitStun = 0;
 
 // Monster spawn check
 const spawned = []; // checks to see if a monster spawn has already been triggered
-const onScreen = []; // array of monsters that should be on the screen
+const onScreen = []; // array of objects that should be on the screen
+// onScreen includes: {
+//   critterId: critterId,
+//     xPos: 850,
+//     yPos: 200 + (Math.random() * 100),
+//     size: { 
+//       x1: 0, 
+//       x2: critterArray[critterId].width, 
+//       y1: 0, 
+//       y2: critterArray[critterId].height }}
 
 // Keyboard Controls
 let leftPressed = false;
 let rightPressed = false;
 let upPressed = false;
+let fPressed = false;
 
 // keyDownHandler(e);
 // keyUpHandler(e);
@@ -37,13 +49,12 @@ document.addEventListener("keyup", keyUpHandler, false);
 function keyDownHandler(e) {
   if (e.key === "Right" || e.key === "ArrowRight" || e.key === "d") {
     rightPressed = true;
-    direction = "right";
+    if (mcState !== 'hit') { mcState = "right"; }
   } else if (e.key === "Left" || e.key === "ArrowLeft" || e.key === "a") {
     leftPressed = true;
-    direction = "left";
+    if (mcState !== 'hit') { mcState = "left"; }
   } else if ((e.key === "Up" || e.key === "ArrowUp" || e.key === "w") && jumping === false && falling === false) {
-    upPressed = true;
-    // direction = "neutral";
+    if (mcState !== 'hit') { upPressed = true; }
   } else {
     console.log(e.key);
   }
@@ -56,17 +67,33 @@ function keyUpHandler(e) {
     leftPressed = false;
   } else if (e.key === "Up" || e.key === "ArrowUp" || e.key === "w") {
     upPressed = false;
+  } else if (e.key === "f") {
+    fPressed = false;
   }
 }
 
 // context, keyframe per 60 fps, display width, display height
 let floortiles = new Environment(ctx, 4, 800, 200);
-let mc = new Character(ctx, 4, 100, 100);
+let mc = new Character(ctx);
 
 function runGame() {
   idleFrames++;
   if (idleFrames > 59) {
     idleFrames = idleFrames % 60;
+  }
+
+  if (mcState === 'hit') {
+    hitStun++;
+    if (hitStun === 1 || hitStun === 29) {
+      stageProgress -= 30;
+      onScreen.map(critter => {
+        critter.xPos += 30;
+      });
+    }
+    if (hitStun >= 60) {
+      mcState = 'neutral';
+      hitStun = 0;
+    }
   }
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -77,7 +104,7 @@ function runGame() {
     onScreen.map(critter => {
       critter.xPos -= (critterArray[critter.critterId].moveSpeed);
     })
-  } else if (leftPressed === true) {
+  } else if (leftPressed === true & stageProgress - moveSpeed > 0) {
     stageProgress -= moveSpeed;
     onScreen.map(critter => {
       critter.xPos += (critterArray[critter.critterId].moveSpeed);
@@ -85,7 +112,6 @@ function runGame() {
   }
 
   // Remove critters moved past
-
   onScreen.map(critter => {
     if (critter.xPos < -200) {
       onScreen.shift();
@@ -116,9 +142,6 @@ function runGame() {
   // pass in stage progress to background render
   floortiles.render(stageProgress);
 
-  // render main character
-  mc.render(stageProgress, direction, height);
-
   // Checks to see if a monster should spawn
   if (checkSpawn(stageProgress) !== undefined && !spawned.includes(stageProgress)) {
     spawned.push(stageProgress);
@@ -139,8 +162,19 @@ function runGame() {
       generateCritter(ctx, critter, idleFrames)
     });
   };
-  detectCollision(height, onScreen);
+
+  // render main character
+  mc.render(stageProgress, mcState, height, idleFrames);
+  
+  if (detectCollision(height, onScreen) && mcState !== 'hit') {
+    mcState = 'hit';
+    healthBar -= 10;
+    console.log('-10 HP')
+  };
+
+
   requestAnimationFrame(runGame);
+
 }
 
 runGame();

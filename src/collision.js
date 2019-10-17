@@ -6,17 +6,19 @@ export function detectCollision(height, onScreen) {
     y1: 308 - height,
   }
 
-  onScreen.map(critter => {
+  let beingHit = false;
+
+  onScreen.forEach(critter => {
     if ( 
       (critter.xPos + critter.size.x1) < characterHurtBox.x2 && 
       (critter.xPos + critter.size.x2) > characterHurtBox.x1 &&
       (critter.yPos + critter.size.y1) < characterHurtBox.y2 &&
       (critter.yPos + critter.size.y2) > characterHurtBox.y1
       ) {
-
-        
-        console.log(`collision`);
-        
+      beingHit = true;
     }
   })
+
+  return beingHit;
+
 }
