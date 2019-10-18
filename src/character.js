@@ -33,7 +33,7 @@ class Character {
     }
 
     let charPos = Math.floor(frames / 60) * 100;
-    this.ctx.drawImage(this.sprite, charPos, spriteRow, 100, 100, 170, 270 - height, 100, 100);
+    this.ctx.drawImage(this.sprite, charPos, spriteRow, 100, 100, 170, 350 - height, 100, 100);
 
   }
 }

@@ -8,7 +8,7 @@ class Critter {
     this.sprite = new Image();
     this.sprite.src = critterArray[critter.critterId].src;
     this.xPos = critter.xPos;
-    this.yPos = critter.yPos;
+    this.yPos = Math.sqrt((650 * 59) - (59 * this.xPos)) + 180;
   }
 
   render(critter, idleFrames) {

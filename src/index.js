@@ -12,7 +12,7 @@ const ctx = canvas.getContext("2d");
 let idleFrames = 0;
 
 let stageProgress = 0;
-const moveSpeed = 10;
+const moveSpeed = 5;
 let mcState = 'neutral';
 let direction;
 let healthBar = '100';
@@ -85,7 +85,7 @@ function keyUpHandler(e) {
 }
 
 // context, keyframe per 60 fps, display width, display height
-let floortiles = new Environment(ctx, 4, 800, 200);
+let floortiles = new Environment(ctx, 4, 800, 475);
 let mc = new Character(ctx);
 let crowbar = new Equipment(ctx);
 
@@ -174,8 +174,8 @@ function runGame() {
         critterState: 'neutral',
         critterHealth: 10,
         critterHitstun: 0,
-        xPos : 850,
-        yPos: 200 + (Math.random() * 100),
+        xPos : 650,
+        yPos: 180,
         size: { x1: 0, x2: critterArray[critterId].width, y1: 0, y2: critterArray[critterId].height},
         hitbox: critterArray[critterId].hitbox
       }
@@ -188,7 +188,7 @@ function runGame() {
       // Check to see if any of the monsters are being hit
       if (beingHit.length !== 0) {
         beingHit.map(coord => {
-          if (coord[0] === critter.xPos && coord[1] === critter.yPos && critter.critterState !== 'hit') {
+          if (coord[0] === critter.xPos && critter.critterState !== 'hit') {
             critter.critterState = 'hit';
             critter.critterHealth -= coord[2]; // takes off critter HP
           }
