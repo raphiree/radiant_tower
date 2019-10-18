@@ -3,10 +3,30 @@ html, body {
   padding: 0;
 }
 
-#root-game {
+#game-canvas {
+  position: absolute;
+  border: 1px solid black;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 50px;
+}
+
+#root {
+  width: 1000px;
+  height: 600px;
   position: relative;
   border: 1px solid black;
   left: 50%;
   transform: translateX(-50%);
   top: 200px;
+}
+
+#healthBarContainer {
+  position: absolute;
+  z-index: 1;
+  top: 70px;
+  left: 150px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 }

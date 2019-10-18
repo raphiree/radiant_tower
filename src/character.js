@@ -10,6 +10,7 @@ class Character {
     // Walking left and right
     let spriteRow;
     let frames;
+    let gameover = false;
     
     if (mcState === 'neutral') {
       frames = stageProgress % 240;
@@ -30,10 +31,15 @@ class Character {
       } else {
         spriteRow = 300;
       }
+    } else if (mcState === 'dead') {
+      frames = hitStun * 4;
+      spriteRow = 500;
+      gameover = true;
     }
 
     let charPos = Math.floor(frames / 60) * 100;
     this.ctx.drawImage(this.sprite, charPos, spriteRow, 100, 100, 170, 350 - height, 100, 100);
+
 
   }
 }

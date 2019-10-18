@@ -6,8 +6,10 @@ import { critterArray } from './critters/critter_db';
 import { equipmentArray } from './equipment_db';
 import { detectCollision, detectHit } from './collision';
 import Equipment from './equipment';
+import { displayHealthBar, takeDamage } from './display';
 
-const canvas = document.getElementById('root-game');
+const rootDoc = document.getElementById('root');
+const canvas = document.getElementById('game-canvas');
 const ctx = canvas.getContext("2d");
 let idleFrames = 0;
 
@@ -15,7 +17,13 @@ let stageProgress = 0;
 const moveSpeed = 5;
 let mcState = 'neutral';
 let direction;
-let healthBar = '100';
+
+const maxHealth = 2;
+let currentHealth = 2;
+displayHealthBar(maxHealth);
+
+let gameOver = false;
+
 let maxJumpHeight = 200;
 let jumpSpeed = 20;
 let fallSpeed = 10;
@@ -90,6 +98,9 @@ let mc = new Character(ctx);
 let crowbar = new Equipment(ctx);
 
 function runGame() {
+
+
+
   idleFrames++;
   if (idleFrames > 59) {
     idleFrames = idleFrames % 60;
@@ -213,11 +224,22 @@ function runGame() {
   crowbar.render(stageProgress, mcState, direction, height, recovery, hitStun);
 
   
-  if (detectCollision(height, onScreen) && mcState !== 'hit') {
+  if (detectCollision(height, onScreen) && mcState !== 'hit' && currentHealth > 0) {
     mcState = 'hit';
-    healthBar -= 10;
-    console.log('-10 HP')
+    currentHealth -= 1;
+    console.log('-1 HP')
+    takeDamage(1);
   };
+
+  if (currentHealth === 0 && gameOver === false) {
+    mcState = 'dead';
+    hitStun++
+    if (hitStun >= 60) {
+      gameOver = true;
+      mcState = 'neutral';
+      hitStun = 0;
+    }
+  }
 
   if (mcState === 'attacking') {
     beingHit = detectHit(height, onScreen, 0)
