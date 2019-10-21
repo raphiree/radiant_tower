@@ -24,7 +24,7 @@ export function Controls(stageProgress) {
       self.mcState = 'attacking';
     }
   }
-
+  
   function keyUpHandler(e) {
     if (e.key === "Right" || e.key === "ArrowRight" || e.key === "d") {
       self.rightPressed = false;
@@ -38,5 +38,4 @@ export function Controls(stageProgress) {
       self.mcState = 'normal';
     }
   }
-
 }

@@ -20,10 +20,10 @@ let moveSpeed = 5;
 let currentEnvironment = new Environment('main', ctx);
 let mainChar = new Character(ctx);
 let mcState = {
-  state: keyPress.mcState,
-  direction: keyPress.direction,
+  state: 'normal',
+  direction: 'right',
   height: 0,
-}
+};
 
 function runGame () {
   // GAME VALUES UPDATE
@@ -38,7 +38,7 @@ function runGame () {
   // SCREEN OBJECT VALUES UPDATE
 
   // TEST LOGS
-  // console.log(keyPress.mcState);
+  // console.log(mcState);
 
   // RUN GAME
   requestAnimationFrame(runGame);

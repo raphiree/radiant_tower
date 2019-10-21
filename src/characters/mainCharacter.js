@@ -16,18 +16,12 @@ class Character {
   render(stageProgress, mcState) {
     let spriteSheetRow; // multiples of 100
     let animationFrame = Math.floor((stageProgress % 240) / (240 / this.fps)) * 100;
-    if (mcState.state = 'normal') {
+    if (mcState.state !== 'hit') {
       if (mcState.direction === 'left') {
         spriteSheetRow = 100;
       } else {
         spriteSheetRow = 0; // make a new row for neutral state if time allows and edit it here
       }
-    // } else if (mcState.state = 'attacking') {
-    //   if (mcState.direction === 'left') {
-    //     spriteSheetRow = 200;
-    //   } else {
-    //     spriteSheetRow = 300; // make a new row for neutral state if time allows and edit it here
-    //   }
     }
 
     this.ctx.drawImage(
