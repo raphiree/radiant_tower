@@ -18,7 +18,7 @@ export function Controls(stageProgress) {
       self.direction = 'left';
     } else if (e.key === "Up" || e.key === "ArrowUp" || e.key === "w" || e.key === " ") {
       self.upPressed = true;
-      self.mcState = 'jumping';
+      if (self.mcState === 'normal') { self.mcState = 'jumping'; }
     } else if (e.key === "f") {
       self.fPressed = true;
       self.mcState = 'attacking';
@@ -35,6 +35,7 @@ export function Controls(stageProgress) {
       self.mcState = 'normal';
     } else if (e.key === "f") {
       self.fPressed = false;
+      self.mcState = 'normal';
     }
   }
 
