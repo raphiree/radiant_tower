@@ -1,19 +1,14 @@
-class Character {
+import { equipmentArray } from './equipment_db';
+
+class Equipment {
   constructor(ctx) {
     this.ctx = ctx;
     this.sprite = new Image();
-    this.sprite.src = "assets/mc/mc-spritesheet-2x.png";
-    this.xPos = 170;
-    this.yPos = 350;
-    this.spriteFrame = 0;
-    this.fps = 4;
-    this.maxJumpHeight = 200;
-    this.jumpSpeed = 10;
-    this.fallSpeed = 10;
-    this.timer = 0;
   }
 
-  render(stageProgress, mcState) {
+  render( equipment_id, mcState, stageProgress, mainChar) {
+
+    this.sprite.src = equipmentArray[equipment_id].src;
     let spriteSheetRow; // multiples of 100
     let animationFrame;
     if (mcState.state !== 'hit' && mcState.action !== 'attacking') {
@@ -35,14 +30,13 @@ class Character {
     const spriteSheetXPos = Math.floor(animationFrame / 60) * 100
 
     this.ctx.drawImage(
-      this.sprite, 
+      this.sprite,
       spriteSheetXPos, spriteSheetRow, // start x, start y
       100, 100, // start width, start height 
-      this.xPos, this.yPos - mcState.height, // canvas position, x and y 
+      mainChar.xPos, mainChar.yPos - mcState.height, // canvas position, x and y 
       100, 100 // canvas display width, height
     );
   }
-
 }
 
-export default Character;
+export default Equipment;

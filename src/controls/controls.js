@@ -5,6 +5,7 @@ export function Controls(stageProgress) {
   self.upPressed = false;
   self.fPressed = false;
   self.mcState =  'normal'; 
+  self.mcAction = 'none';
   self.direction = 'neutral';
   document.addEventListener("keydown", keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
@@ -20,8 +21,8 @@ export function Controls(stageProgress) {
       self.upPressed = true;
       if (self.mcState === 'normal') { self.mcState = 'jumping'; }
     } else if (e.key === "f") {
+      self.mcAction = 'attacking';
       self.fPressed = true;
-      self.mcState = 'attacking';
     }
   }
   
@@ -35,7 +36,7 @@ export function Controls(stageProgress) {
       self.mcState = 'normal';
     } else if (e.key === "f") {
       self.fPressed = false;
-      self.mcState = 'normal';
+      self.mcAction = 'none';
     }
   }
 }

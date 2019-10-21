@@ -18,9 +18,18 @@ export function updateMCState(mainChar, mcState, keyPress) {
   let newState = mcState;
   newState.direction = keyPress.direction;
 
-  if (mcState === 'hit') {
+  if (newState.state === 'hit') {
     console.log('ohno');
   } else {
+    // Attack Handler
+    if (keyPress.mcAction === 'attacking' && newState.action === 'none') {
+      newState.action = 'attacking';
+      newState.recovery++;
+    } else if (newState.action === 'attacking' && newState.recovery > 0) {
+      newState.recovery++;
+      if (newState.recovery >= 30) {newState.action = 'none', newState.recovery = 0}
+    }
+
     // Jumping handler
     if (keyPress.mcState === 'jumping' && newState.height === 0) {
       newState.state = 'jumping';
@@ -35,9 +44,7 @@ export function updateMCState(mainChar, mcState, keyPress) {
         newState.height -= mainChar.fallSpeed;
       }
     }
-    // if (keyPress.mcState === 'attacking') {
-    //   newState.state = 'attacking';
-    // }
+
   }
   return newState;
 }
