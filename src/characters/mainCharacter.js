@@ -13,7 +13,7 @@ class Character {
     this.timer = 0;
   }
 
-  render(stageProgress, mcState) {
+  render(gameMode, stageProgress, mcState) {
     let spriteSheetRow; // multiples of 100
     let animationFrame;
     if (mcState.state !== 'hit' && mcState.action !== 'attacking') {
@@ -33,14 +33,22 @@ class Character {
     }
 
     const spriteSheetXPos = Math.floor(animationFrame / 60) * 100
+    let horizontalMovement = 0;
+    if (gameMode.movement === 'free') {
+      (stageProgress < 500) ? horizontalMovement = stageProgress : horizontalMovement = 500;
+    }
+    
+    if (gameMode.mode !== 'intro') {
+      this.ctx.drawImage(
+        this.sprite, 
+        spriteSheetXPos, spriteSheetRow, // start x, start y
+        100, 100, // start width, start height 
+        this.xPos + horizontalMovement, 
+        this.yPos - mcState.height, // canvas position, x and y 
+        100, 100 // canvas display width, height
+      );
+    }
 
-    this.ctx.drawImage(
-      this.sprite, 
-      spriteSheetXPos, spriteSheetRow, // start x, start y
-      100, 100, // start width, start height 
-      this.xPos, this.yPos - mcState.height, // canvas position, x and y 
-      100, 100 // canvas display width, height
-    );
   }
 
 }

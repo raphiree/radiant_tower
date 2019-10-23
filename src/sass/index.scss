@@ -30,3 +30,31 @@ html, body {
   justify-content: flex-start;
   align-items: flex-start;
 }
+
+.titleText {
+  font-family: 'Fontdiner Swanky', cursive;
+  position: absolute;
+  z-index: 1;
+  top: 150px;
+  font-size: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(5, 49, 70, 0.692);
+  text-shadow: (2px 2px #000000);
+}
+
+.subtitleText {
+  font-family: 'Fontdiner Swanky', cursive;
+  position: absolute;
+  z-index: 1;
+  bottom: 180px;
+  font-size: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(9, 85, 99, 0.692);
+  text-shadow: (2px 2px #000000);
+}
+
+.hidden {
+  display: none;
+}

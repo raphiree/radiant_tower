@@ -4,7 +4,9 @@ import Environment from './environment/environment';
 import Character from './characters/mainCharacter';
 import Equipment from './characters/equipment';
 import { Controls } from './controls/controls';
-import { updateRunTime, updateStageProgress, updateMCState } from './core/core.js';
+import * as Core from './core/core.js';
+import { displayTitle } from './display/title';
+import { spawnMonster, updateMonster } from './monsters/monster';
 
 const rootDoc = document.getElementById('root');
 const canvas = document.getElementById('game-canvas');
@@ -16,9 +18,21 @@ const keyPress = new Controls();
 
 // GAMEPLAY VARIABLES
 let runTime = 0;
+let score = 0;
+
+// Current state of the game mode being rendered
 let stageProgress = 0;
 let moveSpeed = 5;
-let currentEnvironment = new Environment('main', ctx);
+let gameMode = {
+  mode: 'intro',
+  movement: 'free',
+}
+let currentEnvironment = new Environment(gameMode.mode, ctx);
+
+// Hostile objects being rendered
+let onScreen = [];
+
+// Current state of the main character being rendered
 let mainChar = new Character(ctx);
 let equipment = new Equipment(ctx);
 let mcState = {
@@ -31,24 +45,33 @@ let mcState = {
   equipment_id: 0,
 };
 
-function runGame () {
+function runMainGame () {
+
+  // TITLE SCREEN
+  if (gameMode.mode === 'intro') {
+    gameMode = Core.updateGameMode(gameMode, keyPress);
+    displayTitle(gameMode, keyPress);
+  }
+  
   // GAME VALUES UPDATE
-  runTime = updateRunTime(runTime);
-  stageProgress = updateStageProgress(keyPress, stageProgress, moveSpeed);
-  mcState = updateMCState(mainChar, mcState, keyPress);
+  runTime = Core.updateRunTime(runTime);
+  stageProgress = Core.updateStageProgress(keyPress, stageProgress, moveSpeed, gameMode);
+  
+  // SCREEN OBJECT VALUES UPDATE
+  mcState = Core.updateMCState(mainChar, mcState, keyPress);
+  onScreen = spawnMonster(onScreen, stageProgress);
+  onScreen = updateMonster(onScreen, keyPress, moveSpeed);
+  console.log(onScreen);
 
   // RENDERS
-  currentEnvironment.render(stageProgress);
-  mainChar.render(stageProgress, mcState);
-  equipment.render(mcState.equipment_id, mcState, stageProgress, mainChar);
-
-  // SCREEN OBJECT VALUES UPDATE
-
+  currentEnvironment.render(gameMode, stageProgress);
+  mainChar.render(gameMode, stageProgress, mcState);
+  equipment.render(gameMode, mcState.equipment_id, mcState, stageProgress, mainChar);
+  
   // TEST LOGS
-  // console.log(mcState);
 
   // RUN GAME
-  requestAnimationFrame(runGame);
+  requestAnimationFrame(runMainGame);
 }
 
-runGame();
+runMainGame();

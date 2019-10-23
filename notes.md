@@ -1,31 +1,5 @@
-on startup
-
-  draw background position
-  draw mc
-  draw mobs
-
-on rightpress
-  background frame +
-  mobs move left
-  character turns right
-
-on leftpress
-  mobs move right
-  background frame -
-  character turns left
-
-Main Page
-  Controls
-  Game logic
-  Render
-
-Character Class
-Background Class
-Creature Class
-
-(-200, 100)
-(650, 180)
-
-
--650 +180
-
+2. Render monster function
+3. Generate Monster function given stage progress
+1. Circle collision detection function
+4. Monster movement/HP/status tracking
+5. Add timer
