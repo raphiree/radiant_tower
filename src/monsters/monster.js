@@ -13,9 +13,9 @@ class Monster {
   }
 
   render(xPos, runTime, keyPress, moveSpeed) {
-    let animationFrame = (Math.floor(runTime % 60 / 15)) * 50 + 50;
+    let animationFrame = (Math.floor(runTime % 60 / 15)) * 50;
     this.sprite.src = this.monster.property.src;
-    let dx = this.xPos;
+    let dx = xPos;
     let dy = 0;
     this.ctx.drawImage(
       this.sprite,
@@ -28,7 +28,7 @@ class Monster {
   }
 }
 
-export function renderAllhostiles(ctx, onScreen, runTime, stageProgress, keyPress, moveSpeed) {
+export function renderAllhostiles(ctx, onScreen, runTime, keyPress, moveSpeed) {
   for (let i = 0; i < onScreen.length; i++) {
     let hostile = new Monster(ctx, onScreen[i]);
     hostile.render(onScreen[i].xPos, runTime, keyPress, moveSpeed)
@@ -58,7 +58,12 @@ export function spawnMonster(onScreen, stageProgress) {
 }
 
 export function updateMonster (onScreen, keyPress, moveSpeed) {
-  let newScreen = onScreen;
+  let newScreen = [];
+  onScreen.map(monster => {
+    if (monster.xPos >= -850) {
+      newScreen.push(monster);
+    }
+  })
   if (newScreen !== undefined) {
     newScreen.map(monster => {
       if (keyPress.rightPressed) {

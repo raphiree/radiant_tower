@@ -40,7 +40,7 @@ class Character {
     
     if (gameMode.mode !== 'intro') {
       this.ctx.drawImage(
-        this.sprite, 
+        this.sprite,
         spriteSheetXPos, spriteSheetRow, // start x, start y
         100, 100, // start width, start height 
         this.xPos + horizontalMovement, 

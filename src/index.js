@@ -6,7 +6,7 @@ import Equipment from './characters/equipment';
 import { Controls } from './controls/controls';
 import * as Core from './core/core.js';
 import { displayTitle } from './display/title';
-import { spawnMonster, updateMonster } from './monsters/monster';
+import { spawnMonster, updateMonster, renderAllhostiles } from './monsters/monster';
 
 const rootDoc = document.getElementById('root');
 const canvas = document.getElementById('game-canvas');
@@ -61,12 +61,12 @@ function runMainGame () {
   mcState = Core.updateMCState(mainChar, mcState, keyPress);
   onScreen = spawnMonster(onScreen, stageProgress);
   onScreen = updateMonster(onScreen, keyPress, moveSpeed);
-  console.log(onScreen);
 
   // RENDERS
   currentEnvironment.render(gameMode, stageProgress);
   mainChar.render(gameMode, stageProgress, mcState);
   equipment.render(gameMode, mcState.equipment_id, mcState, stageProgress, mainChar);
+  renderAllhostiles(ctx, onScreen, runTime, keyPress, moveSpeed)
   
   // TEST LOGS
 
