@@ -37,7 +37,7 @@ export function renderAllhostiles(ctx, onScreen, runTime, stageProgress, keyPres
 
 export function spawnMonster(onScreen, stageProgress) {
     // Spawns a new monster at 25% chance
-  const spawnRate = 25;
+  const spawnRate = 100;
   let newScreen = onScreen;
 
   if ( stageProgress > 200 
