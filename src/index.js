@@ -66,9 +66,10 @@ function runMainGame () {
   currentEnvironment.render(gameMode, stageProgress);
   mainChar.render(gameMode, stageProgress, mcState);
   equipment.render(gameMode, mcState.equipment_id, mcState, stageProgress, mainChar);
-  renderAllhostiles(ctx, onScreen, runTime, keyPress, moveSpeed)
+  renderAllhostiles(ctx, onScreen, runTime)
   
   // TEST LOGS
+  // console.log(onScreen)
 
   // RUN GAME
   requestAnimationFrame(runMainGame);

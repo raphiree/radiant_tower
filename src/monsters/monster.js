@@ -12,26 +12,26 @@ class Monster {
     this.yPos = monster.yPos;
   }
 
-  render(xPos, runTime, keyPress, moveSpeed) {
+  render(xPos, yPos, runTime) {
     let animationFrame = (Math.floor(runTime % 60 / 15)) * 50;
     this.sprite.src = this.monster.property.src;
     let dx = xPos;
-    let dy = 0;
+    let dy = yPos;
     this.ctx.drawImage(
       this.sprite,
       animationFrame, 0, // start x, start y
       50, 50, // start width, start height 
-      650 + dx,
-      200, // canvas position, x and y 
+      0 + dx,
+      0 + dy, // canvas position, x and y 
       50, 50 // canvas display width, height
     );
   }
 }
 
-export function renderAllhostiles(ctx, onScreen, runTime, keyPress, moveSpeed) {
+export function renderAllhostiles(ctx, onScreen, runTime) {
   for (let i = 0; i < onScreen.length; i++) {
     let hostile = new Monster(ctx, onScreen[i]);
-    hostile.render(onScreen[i].xPos, runTime, keyPress, moveSpeed)
+    hostile.render(onScreen[i].xPos, onScreen[i].yPos, runTime)
   }
 }
 
@@ -68,10 +68,19 @@ export function updateMonster (onScreen, keyPress, moveSpeed) {
     newScreen.map(monster => {
       if (keyPress.rightPressed) {
         monster.xPos -= moveSpeed;
+
+        if (monster.xPos <= 650 && monster.xPos > 550) {
+          monster.yPos = 200;
+        } else if (monster.xPos > 500) {
+          monster.yPos = 320;
+        } else if (monster.xPos > 450) {
+          monster.yPos = 350;
+        }
+
       } else if (keyPress.leftPressed) {
         monster.xPos += moveSpeed;
       }
-    })
+    })  
   }
   return newScreen;
 }
