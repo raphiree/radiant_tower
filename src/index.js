@@ -7,6 +7,7 @@ import { Controls } from './controls/controls';
 import * as Core from './core/core.js';
 import { displayTitle } from './display/title';
 import { spawnMonster, updateMonster, renderAllhostiles } from './monsters/monster';
+import { displayHealthBar, takeDamage } from './display/healthbar';
 
 const rootDoc = document.getElementById('root');
 const canvas = document.getElementById('game-canvas');
@@ -19,6 +20,8 @@ const keyPress = new Controls();
 // GAMEPLAY VARIABLES
 let runTime = 0;
 let score = 0;
+let maxHealth = 10;
+displayHealthBar(maxHealth); // Creates healthbar elements on screen
 
 // Current state of the game mode being rendered
 let stageProgress = 0;

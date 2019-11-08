@@ -68,17 +68,11 @@ export function updateMonster (onScreen, keyPress, moveSpeed) {
     newScreen.map(monster => {
       if (keyPress.rightPressed) {
         monster.xPos -= moveSpeed;
-
-        if (monster.xPos <= 650 && monster.xPos > 550) {
-          monster.yPos = 200;
-        } else if (monster.xPos > 500) {
-          monster.yPos = 320;
-        } else if (monster.xPos > 450) {
-          monster.yPos = 350;
-        }
-
       } else if (keyPress.leftPressed) {
         monster.xPos += moveSpeed;
+      }
+      if (monster.xPos > 200) {
+        monster.yPos = Math.sqrt((650 * 59) - (59 * monster.xPos)) + 230
       }
     })  
   }
