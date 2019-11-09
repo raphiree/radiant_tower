@@ -8,6 +8,7 @@ import * as Core from './core/core.js';
 import { displayTitle } from './display/title';
 import { spawnMonster, updateMonster, renderAllhostiles } from './monsters/monster';
 import { displayHealthBar, takeDamage } from './display/healthbar';
+import { checkBeingHit } from './core/collision';
 
 const rootDoc = document.getElementById('root');
 const canvas = document.getElementById('game-canvas');
@@ -64,6 +65,8 @@ function runMainGame () {
   mcState = Core.updateMCState(mainChar, mcState, keyPress);
   onScreen = spawnMonster(onScreen, stageProgress);
   onScreen = updateMonster(onScreen, keyPress, moveSpeed);
+
+  checkBeingHit(onScreen);
 
   // RENDERS
   currentEnvironment.render(gameMode, stageProgress);
