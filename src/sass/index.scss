@@ -3,58 +3,65 @@ html, body {
   padding: 0;
 }
 
-#game-canvas {
-  position: absolute;
-  border: 1px solid black;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 50px;
+.hidden {
+  display: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: rgb(0, 51, 77);
+}
+
+#page-header {
+  font-family: 'Audiowide', cursive;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  line-height: 0em;
+  cursor: default;
+}
+
+#page-header h1 {
+  font-size: 5em;
+}
+
+#page-header h4 {
+  font-size: 1.5em;
+}
+
+#intro-modal {
+  display: none;
 }
 
 #root {
-  width: 1000px;
-  height: 600px;
-  position: relative;
-  border: 1px solid black;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 200px;
+  background-color: white;
+  margin-top: 30px;
 }
 
-#healthBarContainer {
-  position: absolute;
-  z-index: 1;
-  top: 70px;
-  left: 150px;
+#explanations h3 {
+  font-family: 'Audiowide', cursive;
+  color: white;
+}
+
+footer {
+  font-size: 4em;
+  width: 800px;
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: flex-end;
 }
 
-.titleText {
-  font-family: 'Fontdiner Swanky', cursive;
-  position: absolute;
-  z-index: 1;
-  top: 150px;
-  font-size: 50px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: rgba(5, 49, 70, 0.692);
-  text-shadow: (2px 2px #000000);
+footer a {
+  color: rgb(160, 160, 160);
+  text-decoration: none;
+  padding-left: 20px;
 }
 
-.subtitleText {
-  font-family: 'Fontdiner Swanky', cursive;
-  position: absolute;
-  z-index: 1;
-  bottom: 180px;
-  font-size: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: rgba(9, 85, 99, 0.692);
-  text-shadow: (2px 2px #000000);
-}
-
-.hidden {
-  display: none;
+footer a:hover {
+  color: rgb(255, 255, 255);
+  transition: 0.3s;
 }

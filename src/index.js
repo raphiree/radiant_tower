@@ -7,7 +7,6 @@ import { Controls } from './controls/controls';
 import * as Core from './core/core.js';
 import { displayTitle } from './display/title';
 import { spawnMonster, updateMonster, renderAllhostiles } from './monsters/monster';
-import { displayHealthBar, takeDamage } from './display/healthbar';
 import { checkBeingHit } from './core/collision';
 
 const rootDoc = document.getElementById('root');
@@ -22,7 +21,6 @@ const keyPress = new Controls();
 let runTime = 0;
 let score = 0;
 let maxHealth = 10;
-displayHealthBar(maxHealth); // Creates healthbar elements on screen
 
 // Current state of the game mode being rendered
 let stageProgress = 0;
@@ -49,14 +47,7 @@ let mcState = {
   equipment_id: 0,
 };
 
-function runMainGame () {
-
-  // TITLE SCREEN
-  if (gameMode.mode === 'intro') {
-    gameMode = Core.updateGameMode(gameMode, keyPress);
-    displayTitle(gameMode, keyPress);
-  }
-  
+function runMainGame () { 
   // GAME VALUES UPDATE
   runTime = Core.updateRunTime(runTime);
   stageProgress = Core.updateStageProgress(keyPress, stageProgress, moveSpeed, gameMode);

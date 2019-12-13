@@ -5,21 +5,41 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Radiant Tower</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="./dist/main.css">
   <link href="https://fonts.googleapis.com/css?family=Fontdiner+Swanky&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Audiowide&display=swap" rel="stylesheet">
-
 </head>
 
 <body>
 
-  <div id="root">
-    <div id="healthBarContainer"></div>
-    <canvas id="game-canvas" width="800px" height="475px">
-    </canvas>
-  </div>
+  <header id="page-header">
+    <h1>Radiant Tower</h1>
+    <h4>Now with horizontal towers</h4>
+  </header>
+
+  <content id="intro-modal" className="modal">
+    <h3>Instructions</h3>
+  </content>
+
+  <content id="root">
+    <canvas id="game-canvas" width="800px" height="475px"></canvas>
+  </content>
+
+  <content id="explanations">
+    <h3>
+      About the game
+    </h3>
+  </content>
+  <footer id="credits">
+    <a href="https://twitter.com/atuesdayheist" class="fa fa-twitter"></a>
+    <a href="https://www.instagram.com/a_tuesday_heist/" class="fa fa-instagram"></a>
+    <a href="https://github.com/raphiree" class="fa fa-github"></a>
+    <a href="https://angel.co/scott-park-5" class="fa fa-angellist"></a>
+    <a href="https://www.linkedin.com/in/parkscott/" class="fa fa-linkedin"></a>
+  </footer>
 
   <script src="./dist/main.js"></script>
 
