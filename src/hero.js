@@ -1,8 +1,8 @@
-class Character {
+class Hero {
   constructor(ctx) {
     this.ctx = ctx;
-    this.sprite = new Image();
-    this.sprite.src = "assets/mc/mc-spritesheet-2x.png";
+    this.spritesheet = new Image();
+    this.spritesheet.src = "assets/mc/mc-spritesheet-2x.png";
     this.xPos = 170;
     this.yPos = 350;
     this.spriteFrame = 0;
@@ -13,19 +13,19 @@ class Character {
     this.timer = 0;
   }
 
-  render(gameMode, stageProgress, mcState) {
+  render(stageProgress, heroState) {
     let spriteSheetRow; // multiples of 100
     let animationFrame;
-    if (mcState.state !== 'hit' && mcState.action !== 'attacking') {
+    if (heroState.state !== 'hit' && heroState.action !== 'attacking') {
       animationFrame = stageProgress % 240;
-      if (mcState.direction === 'left') {
+      if (heroState.direction === 'left') {
         spriteSheetRow = 100;
       } else {
         spriteSheetRow = 0; // make a new row for neutral state if time allows and edit it here
       }
-    } else if (mcState.action === 'attacking') {
-      animationFrame = mcState.recovery * 8;
-      if (mcState.direction === 'left') {
+    } else if (heroState.action === 'attacking') {
+      animationFrame = heroState.recovery * 8;
+      if (heroState.direction === 'left') {
         spriteSheetRow = 400;
       } else {
         spriteSheetRow = 300;
@@ -34,23 +34,16 @@ class Character {
 
     const spriteSheetXPos = Math.floor(animationFrame / 60) * 100
     let horizontalMovement = 0;
-    if (gameMode.movement === 'free') {
-      (stageProgress < 500) ? horizontalMovement = stageProgress : horizontalMovement = 500;
-    }
-    
-    if (gameMode.mode !== 'intro') {
-      this.ctx.drawImage(
-        this.sprite,
-        spriteSheetXPos, spriteSheetRow, // start x, start y
-        100, 100, // start width, start height 
-        this.xPos + horizontalMovement, 
-        this.yPos - mcState.height, // canvas position, x and y 
-        100, 100 // canvas display width, height
-      );
-    }
-
+    this.ctx.drawImage(
+      this.spritesheet,
+      spriteSheetXPos, spriteSheetRow, // start x, start y
+      100, 100, // start width, start height 
+      this.xPos + horizontalMovement, 
+      this.yPos - heroState.height, // canvas position, x and y 
+      100, 100 // canvas display width, height
+    );
   }
-
+  
 }
 
-export default Character;
+export default Hero;
