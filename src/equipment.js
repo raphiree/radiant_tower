@@ -4,7 +4,7 @@ class Equipment {
     this.sprite = new Image();
   }
 
-  render( gameMode, equipment_id, mcState, stageProgress, mainChar) {
+  render(mcState, stageProgress, mainChar) {
 
     this.sprite.src = "assets/equip/rusty_crowbar-2x.png";
     let spriteSheetRow; // multiples of 100
@@ -26,14 +26,11 @@ class Equipment {
     }
 
     const spriteSheetXPos = Math.floor(animationFrame / 60) * 100
-    let horizontalMovement;
-    (gameMode.movement === 'free') ? horizontalMovement = stageProgress : horizontalMovement = 0;
-
     this.ctx.drawImage(
       this.sprite,
       spriteSheetXPos, spriteSheetRow, // start x, start y
       100, 100, // start width, start height 
-      mainChar.xPos + horizontalMovement, 
+      mainChar.xPos,
       mainChar.yPos - mcState.height, // canvas position, x and y 
       100, 100 // canvas display width, height
     );

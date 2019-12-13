@@ -2,9 +2,10 @@ import './sass/index.scss';
 
 import * as Game from './core.js';
 import { Controls } from './controls';
-import Hero from './hero';
 // import Environment from './environment';
-// import Equipment from './equipment';
+import Hero from './hero';
+import Equipment from './equipment';
+import { spawnMonster, updateMonster, renderAllMonsters } from './monster';
 // import { spawnMonster, updateMonster, monstersOnScreens } from './monster';
 
 // GAMEPLAY VARIABLES
@@ -42,6 +43,7 @@ let projectilesOnScreen = [];
 
 // Current state of the main character being rendered
 let hero = new Hero(ctx);
+let weapon = new Equipment(ctx);
 let heroState = {
   state: 'normal',
   action: 'none',
@@ -52,17 +54,27 @@ let heroState = {
 };
 
 function runGame () {
+  // CLEAR SCREEN FOR REDRAWING
+  ctx.clearRect(0, 0, 800, 475)
+
   // GAME VALUES UPDATE
   runTime += 1;
   stageProgress = Game.updateStageProgress(keyPress, stageProgress, moveSpeed);
 
+  // GAME PROGRESS
+  spawnMonster(monstersOnScreen, stageProgress);
+
   // SCREEN OBJECT VALUES UPDATE
   heroState = Game.updateMCState(hero, heroState, keyPress);
+  monstersOnScreen = updateMonster(monstersOnScreen, keyPress, moveSpeed);
 
   // RENDERS
   hero.render(stageProgress, heroState);
+  weapon.render(heroState, stageProgress, hero);
+  renderAllMonsters(ctx, monstersOnScreen, runTime);
 
   // TEST LOGS
+  // console.log(monstersOnScreen);
 
   // RUN GAME
   requestAnimationFrame(runGame);

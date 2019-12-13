@@ -4,7 +4,7 @@ class Hero {
     this.spritesheet = new Image();
     this.spritesheet.src = "assets/mc/mc-spritesheet-2x.png";
     this.xPos = 170;
-    this.yPos = 350;
+    this.yPos = 325;
     this.spriteFrame = 0;
     this.fps = 4;
     this.maxJumpHeight = 200;
