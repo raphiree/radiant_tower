@@ -1,43 +1,46 @@
 import './sass/index.scss';
 
 import Environment from './environment/environment';
-import Character from './characters/mainCharacter';
+import Character from './hero';
 import Equipment from './characters/equipment';
-import { Controls } from './controls/controls';
-import * as Core from './core/core.js';
-import { displayTitle } from './display/title';
-import { spawnMonster, updateMonster, renderAllhostiles } from './monsters/monster';
-import { displayHealthBar, takeDamage } from './display/healthbar';
-import { checkBeingHit } from './core/collision';
-
-const rootDoc = document.getElementById('root');
-const canvas = document.getElementById('game-canvas');
-const ctx = canvas.getContext("2d");
-
-// BACKGROUND FUNCTIONS
-const keyPress = new Controls();
-// Keypress contains: right/left/up/f - Pressed booleans
+import { Controls } from './controls';
+import * as Game from './core.js';
+import { spawnMonster, updateMonster, monstersOnScreens } from './monsters/monster';
 
 // GAMEPLAY VARIABLES
 let runTime = 0;
 let score = 0;
-let maxHealth = 10;
-displayHealthBar(maxHealth); // Creates healthbar elements on screen
+let maxHealth = 100;
+
+// BACKGROUND FUNCTIONS
+const keyPress = new Controls();
+// keypress returns: 
+//  rightPressed = true/false
+//  leftPressed = true/false
+//  upPressed = true/false
+//  fPressed = true/false
+//  mcState =  normal/jumping
+//  mcAction = none/attacking
+//  direction = neutral/right/left
 
 // Current state of the game mode being rendered
+let gameover = false;
 let stageProgress = 0;
 let moveSpeed = 5;
-let gameMode = {
-  mode: 'intro',
-  movement: 'free',
-}
-let currentEnvironment = new Environment(gameMode.mode, ctx);
 
-// Hostile objects being rendered
-let onScreen = [];
+// SETUP
+const canvas = document.getElementById('game-canvas');
+const ctx = canvas.getContext("2d");
+
+// BACKGROUND
+let currentEnvironment = new Environment(ctx);
+
+// Monsters objects being rendered
+let monstersOnScreen = [];
+let projectilesOnScreen = [];
 
 // Current state of the main character being rendered
-let mainChar = new Character(ctx);
+let hero = new Hero(ctx);
 let equipment = new Equipment(ctx);
 let mcState = {
   state: 'normal',
@@ -46,39 +49,31 @@ let mcState = {
   height: 0,
   hitstun: 0,
   recovery: 0,
-  equipment_id: 0,
 };
 
-function runMainGame () {
-
-  // TITLE SCREEN
-  if (gameMode.mode === 'intro') {
-    gameMode = Core.updateGameMode(gameMode, keyPress);
-    displayTitle(gameMode, keyPress);
-  }
-  
+function runGame () {
   // GAME VALUES UPDATE
-  runTime = Core.updateRunTime(runTime);
-  stageProgress = Core.updateStageProgress(keyPress, stageProgress, moveSpeed, gameMode);
-  
-  // SCREEN OBJECT VALUES UPDATE
-  mcState = Core.updateMCState(mainChar, mcState, keyPress);
-  onScreen = spawnMonster(onScreen, stageProgress);
-  onScreen = updateMonster(onScreen, keyPress, moveSpeed);
 
-  checkBeingHit(onScreen);
+  runTime += 1;
+  stageProgress = Game.updateStageProgress(keyPress, stageProgress, moveSpeed, gameMode);
+
+  // SCREEN OBJECT VALUES UPDATE
+  mcState = Game.updateMCState(mainChar, mcState, keyPress);
+  monstersOnScreen = spawnMonster(monstersOnScreen, stageProgress);
+  monstersOnScreen = updateMonster(monstersOnScreen, keyPress, moveSpeed);
+
+  checkBeingHit(monstersOnScreen);
 
   // RENDERS
   currentEnvironment.render(gameMode, stageProgress);
   mainChar.render(gameMode, stageProgress, mcState);
   equipment.render(gameMode, mcState.equipment_id, mcState, stageProgress, mainChar);
-  renderAllhostiles(ctx, onScreen, runTime)
-  
+  renderAllhostiles(ctx, monstersOnScreen, runTime)
+
   // TEST LOGS
-  // console.log(onScreen)
 
   // RUN GAME
-  requestAnimationFrame(runMainGame);
+  requestAnimationFrame(runGame);
 }
 
-runMainGame();
+runGame();

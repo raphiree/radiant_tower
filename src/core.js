@@ -1,9 +1,3 @@
-export function updateRunTime(runTime) {
-  let newRunTime;
-  (runTime >= 59) ? newRunTime = 0 : newRunTime = runTime + 1
-  return newRunTime;
-}
-
 export function updateStageProgress(keyPress, stageProgress, moveSpeed, gameMode) {
   let currentStageProgress = stageProgress;
   if (keyPress.leftPressed === true && stageProgress > 0) {

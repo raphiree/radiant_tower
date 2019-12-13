@@ -1,37 +1,67 @@
 html, body {
   margin: 0;
   padding: 0;
-  background-color: rgb(0, 51, 77);
 }
 
 .hidden {
   display: none;
 }
 
-#game-canvas {
-  position: absolute;
-  border: 1px solid black;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 50px;
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #00334d;
+}
+
+#page-header {
+  font-family: "Audiowide", cursive;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  line-height: 0em;
+  cursor: default;
+}
+
+#page-header h1 {
+  font-size: 5em;
+}
+
+#page-header h4 {
+  font-size: 1.5em;
+}
+
+#intro-modal {
+  display: none;
 }
 
 #root {
-  width: 1000px;
-  height: 600px;
-  position: relative;
-  border: 1px solid black;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 200px;
+  background-color: white;
+  margin-top: 30px;
 }
 
-#healthBarContainer {
-  position: absolute;
-  z-index: 1;
-  top: 70px;
-  left: 150px;
+#explanations h3 {
+  font-family: "Audiowide", cursive;
+  color: white;
+}
+
+footer {
+  font-size: 4em;
+  width: 800px;
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+footer a {
+  color: #a0a0a0;
+  text-decoration: none;
+  padding-left: 20px;
+}
+
+footer a:hover {
+  color: white;
+  transition: 0.3s;
 }

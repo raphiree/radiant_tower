@@ -1,5 +1,3 @@
-import { equipmentArray } from './equipment_db';
-
 class Equipment {
   constructor(ctx) {
     this.ctx = ctx;
@@ -8,7 +6,7 @@ class Equipment {
 
   render( gameMode, equipment_id, mcState, stageProgress, mainChar) {
 
-    this.sprite.src = equipmentArray[equipment_id].src;
+    this.sprite.src = "assets/equip/rusty_crowbar-2x.png";
     let spriteSheetRow; // multiples of 100
     let animationFrame;
     if (mcState.state !== 'hit' && mcState.action !== 'attacking') {
