@@ -1,5 +1,4 @@
 import { monsterArray } from './monster_db';
-import { spawnMap } from './spawnMap';
 
 export const onScreenHostiles = [];
 
