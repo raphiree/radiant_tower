@@ -17,6 +17,7 @@ class Equipment {
         spriteSheetRow = 0; // make a new row for neutral state if time allows and edit it here
       }
     } else if (mcState.action === 'attacking') {
+      console.log(mcState.recovery);
       animationFrame = mcState.recovery * 8;
       if (mcState.direction === 'left') {
         spriteSheetRow = 400;
@@ -26,14 +27,16 @@ class Equipment {
     }
 
     const spriteSheetXPos = Math.floor(animationFrame / 60) * 100
-    this.ctx.drawImage(
-      this.sprite,
-      spriteSheetXPos, spriteSheetRow, // start x, start y
-      100, 100, // start width, start height 
-      mainChar.xPos,
-      mainChar.yPos - mcState.height, // canvas position, x and y 
-      100, 100 // canvas display width, height
-    );
+    if (mcState.state !== 'hit') {
+      this.ctx.drawImage(
+        this.sprite,
+        spriteSheetXPos, spriteSheetRow, // start x, start y
+        100, 100, // start width, start height 
+        mainChar.xPos,
+        mainChar.yPos - mcState.height, // canvas position, x and y 
+        100, 100 // canvas display width, height
+      );
+    }
   }
 }
 

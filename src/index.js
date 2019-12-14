@@ -5,7 +5,7 @@ import { Controls } from './controls';
 import Hero from './hero';
 import Equipment from './equipment';
 import { spawnMonster, updateMonster, renderAllMonsters, spawnProjectiles } from './monster';
-import { checkIfBeingHit } from './collision';
+import { checkIfBeingHit, checkIfHitting } from './collision';
 
 // GAMEPLAY VARIABLES
 let runTime = 0;
@@ -51,6 +51,7 @@ let heroState = {
   height: 0,
   hitstun: 0,
   recovery: 0,
+  damage: 5,
 };
 
 function runGame () {
@@ -59,7 +60,7 @@ function runGame () {
 
   // GAME VALUES UPDATE
   runTime += 1;
-  stageProgress = Game.updateStageProgress(keyPress, stageProgress, moveSpeed);
+  stageProgress = Game.updateStageProgress(keyPress, stageProgress, moveSpeed, heroState);
 
   // GAME PROGRESS
   spawnMonster(monstersOnScreen, stageProgress);
@@ -72,6 +73,7 @@ function runGame () {
 
   // CHECK CONDITIONS
   heroState = checkIfBeingHit(hero, heroState, monstersOnScreen, projectilesOnScreen, ctx);
+  monstersOnScreen = checkIfHitting(hero, heroState, monstersOnScreen, ctx);
 
   // RENDERS
   hero.render(stageProgress, heroState);
@@ -80,7 +82,7 @@ function runGame () {
 
   // TEST LOGS
   // if (heroState.hitstun > 0) {
-    console.log(heroState.height);
+  //  console.log(heroState.recovery);
   // }
 
   // RUN GAME

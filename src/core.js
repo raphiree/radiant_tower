@@ -1,10 +1,15 @@
-export function updateStageProgress(keyPress, stageProgress, moveSpeed) {
+export function updateStageProgress(keyPress, stageProgress, moveSpeed, heroState) {
   let currentStageProgress = stageProgress;
   if (keyPress.leftPressed === true && stageProgress > 0) {
     currentStageProgress -= moveSpeed;
   } else if (keyPress.rightPressed === true) {
     currentStageProgress += moveSpeed;
   }
+
+  if (heroState.state === 'hit' && heroState.hitstun === 1) {
+    currentStageProgress -= 10;
+  }
+
   return currentStageProgress;
 }
 
@@ -17,7 +22,14 @@ export function updateMCState(mainChar, mcState, keyPress) {
       newState.hitstun = 0;
     } else {
       newState.hitstun += 1;
+      
     }
+    if (newState.height - mainChar.fallSpeed < 0) {
+      newState.height = 0;
+    } else {
+      newState.height -= mainChar.fallSpeed;
+    }
+
   } else {
     // Attack Handler
     if (keyPress.mcAction === 'attacking' && newState.action === 'none') {
@@ -34,7 +46,7 @@ export function updateMCState(mainChar, mcState, keyPress) {
       newState.height += mainChar.jumpSpeed;
     } else if (newState.state === 'jumping' && newState.height > 0) {
       (newState.height + mainChar.jumpSpeed > mainChar.maxJumpHeight ) ? newState.state = 'falling' : newState.height += mainChar.jumpSpeed; 
-    } else if (newState.state === 'falling') {
+    } else if (newState.state !== 'jumping') {
       if (newState.height - mainChar.fallSpeed < 0) {
         newState.height = 0;
         newState.state = 'normal';

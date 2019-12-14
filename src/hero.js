@@ -47,6 +47,7 @@ class Hero {
       }
     // HERO IS HIT
     } else if (heroState.state === 'hit') {
+      heroState.action = 'none';
       animationFrame = heroState.hitstun * 4;
       spriteSheetRow = 200;
     }

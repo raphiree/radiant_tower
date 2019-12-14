@@ -12,13 +12,30 @@ class Monster {
     this.sprite.src = monsterArray[monster.type].src;
   }
 
-  render(ctx, runTime) {
-    let animationFrame = (Math.floor(runTime % 60 / 15)) * 50;
+  render(ctx, runTime, toBeRendered) {
+    let animationFrame;
+    let spriteSheetRow;
     let dx = this.xPos;
     let dy = this.yPos;
+
+    if (toBeRendered.state === 'hit') {
+      animationFrame = (Math.floor(toBeRendered.frame % 60 / 15)) * 50;
+      spriteSheetRow = 50;
+      (toBeRendered.frame === 1) ? dx += 10 : dx;
+    } else if (toBeRendered.state === 'normal') {
+      animationFrame = (Math.floor(runTime % 60 / 15)) * 50;
+      spriteSheetRow = 0;
+    } else if (toBeRendered.state === 'attacking') {
+      animationFrame = (Math.floor(runTime % 60 / 15)) * 50;
+      spriteSheetRow = 150;
+    } else if (toBeRendered.state === 'dying') {
+      animationFrame = (Math.floor(runTime % 60 / 15)) * 50;
+      spriteSheetRow = 100;
+    }
+
     ctx.drawImage(
       this.sprite,
-      animationFrame, 0, // start x, start y
+      animationFrame, spriteSheetRow, // start x, start y
       50, 50, // start width, start height 
       0 + dx,
       0 + dy, // canvas position, x and y 
@@ -37,7 +54,8 @@ let monsterTypes = Object.keys(monsterArray).length;
   if ( stageProgress > 200
     && stageProgress % 200 === 0
     && Math.floor(Math.random()*100) < spawnRate ) {
-    let monsterId = Math.floor(Math.random() * monsterTypes);
+    // let monsterId = Math.floor(Math.random() * monsterTypes);
+    let monsterId = 0;
     let monster = monsterArray[monsterId];
     let yPos = monster.yPos
 
@@ -48,6 +66,7 @@ let monsterTypes = Object.keys(monsterArray).length;
         newScreen.push({
           spawnId: stageProgress,
           type: monsterId,
+          health: monster.health,
           xPos: 825,
           yPos: yPos,
           state: 'normal',
@@ -58,6 +77,7 @@ let monsterTypes = Object.keys(monsterArray).length;
         newScreen.push({
           spawnId: stageProgress,
           type: monsterId,
+          health: monster.health,
           xPos: 825,
           yPos: yPos,
           state: 'normal',
@@ -75,6 +95,15 @@ export function updateMonster (onScreen, keyPress, moveSpeed) {
       let properties = monsterArray[monster.type];
       (keyPress.rightPressed) ? monster.xPos -= moveSpeed : monster.xPos;
       (keyPress.leftPressed) ? monster.xPos += moveSpeed : monster.xPos;
+
+      if (monster.state === 'hit') {
+        if (monster.frame > 60) {
+          monster.state = 'normal'
+          monster.frame = 0;
+        } else {
+          monster.frame += 1;
+        }
+      }
 
       // Diving Bird
       if (monster.type === 1 && monster.xPos < 480) {
@@ -103,6 +132,10 @@ export function updateMonster (onScreen, keyPress, moveSpeed) {
       } else {
         monster.xPos -= properties.moveSpeed;
       }
+
+
+
+
       // Remove monsters out of bounds
       if (monster.xPos >= -250 && monster.state !== 'dead') {
         newScreen.push(monster);
@@ -128,9 +161,9 @@ export function spawnProjectiles(onScreen, projectiles) {
   return newProjectiles;
 }
 
-export function renderAllMonsters(ctx, onScreen, runTime) {
+export function renderAllMonsters(ctx, onScreen, runTime, heroState) {
   for (let i = 0; i < onScreen.length; i++) {
     let monster = new Monster(onScreen[i]);
-    monster.render(ctx, runTime)
+    monster.render(ctx, runTime, onScreen[i])
   }
 }
