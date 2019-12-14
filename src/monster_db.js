@@ -9,6 +9,7 @@ export const monsterArray = {
     moveSpeed: 0,
     points: 100,
     yPos: 375,
+    damage: 5,
   },
   1: {
     name: "bats diving at you",
@@ -20,6 +21,7 @@ export const monsterArray = {
     moveSpeed: 5,
     points: 100,
     yPos: 50,
+    damage: 10,
   },
   2: {
     name: "slimes falling down",
@@ -31,5 +33,6 @@ export const monsterArray = {
     moveSpeed: 0,
     points: 100,
     yPos: 50,
+    damage: 20,
   }
 }

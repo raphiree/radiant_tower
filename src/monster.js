@@ -95,11 +95,9 @@ export function updateMonster (onScreen, keyPress, moveSpeed) {
         if (monster.frame > 180 && monster.state === 'normal') {
           monster.state = 'attacking';
           monster.frame = 0;
-          console.log(monster.state);
         } else if (monster.state === 'attacking' && monster.frame >= 60) {
           monster.state = 'normal';
           monster.frame = 0;
-          console.log(monster.state);
         }
       // Others
       } else {
@@ -120,6 +118,7 @@ export function spawnProjectiles(onScreen, projectiles) {
   onScreen.map(monster => {
     if (monster.type === 0 && monster.state === 'attacking' && monster.frame === 0) {
       let bullet = {
+        type: 'projectile',
         xPos: monster.xPos,
         yPos: monster.yPos + 25,
       }

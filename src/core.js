@@ -11,9 +11,13 @@ export function updateStageProgress(keyPress, stageProgress, moveSpeed) {
 export function updateMCState(mainChar, mcState, keyPress) {
   let newState = mcState;
   newState.direction = keyPress.direction;
-
   if (newState.state === 'hit') {
-    console.log('ohno');
+    if (newState.hitstun >= 60) {
+      newState.state = 'normal'
+      newState.hitstun = 0;
+    } else {
+      newState.hitstun += 1;
+    }
   } else {
     // Attack Handler
     if (keyPress.mcAction === 'attacking' && newState.action === 'none') {

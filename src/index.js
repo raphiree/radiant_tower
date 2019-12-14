@@ -44,6 +44,7 @@ let projectilesOnScreen = [];
 let hero = new Hero(ctx);
 let weapon = new Equipment(ctx);
 let heroState = {
+  health: maxHealth,
   state: 'normal',
   action: 'none',
   direction: 'right',
@@ -70,8 +71,7 @@ function runGame () {
   // projectilesOnScreen = updateProjectile();
 
   // CHECK CONDITIONS
-  checkIfBeingHit(hero, heroState, monstersOnScreen, projectilesOnScreen);
-
+  heroState = checkIfBeingHit(hero, heroState, monstersOnScreen, projectilesOnScreen, ctx);
 
   // RENDERS
   hero.render(stageProgress, heroState);
@@ -80,7 +80,7 @@ function runGame () {
 
   // TEST LOGS
   // if (projectilesOnScreen.length > 0) {
-  //   console.log(projectilesOnScreen);
+    // console.log(heroState.health);
   // }
 
   // RUN GAME
