@@ -79,8 +79,8 @@ function runGame () {
   renderAllMonsters(ctx, monstersOnScreen, runTime);
 
   // TEST LOGS
-  // if (projectilesOnScreen.length > 0) {
-    // console.log(heroState.health);
+  // if (heroState.hitstun > 0) {
+    console.log(heroState.height);
   // }
 
   // RUN GAME

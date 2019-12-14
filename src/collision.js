@@ -26,12 +26,6 @@ export function checkIfBeingHit(hero, heroState, monstersOnScreen, projectilesOn
       ctx.fillStyle = 'rgba(166, 32, 32, 0.6)';
       ctx.fill();
       ctx.stroke();
-
-      ctx.beginPath();
-      ctx.arc(hero.centerX, hero.centerY - heroState.height, hero.radius, 0, 2 * Math.PI);
-      ctx.fillStyle = 'rgba(46, 166, 32, 0.6)';
-      ctx.fill();
-      ctx.stroke();
     }
   })
   return heroState;

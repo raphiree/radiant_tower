@@ -28,6 +28,8 @@ class Hero {
 
     let spriteSheetRow; // multiples of 100
     let animationFrame;
+
+    // HERO IS WALKING
     if (heroState.state !== 'hit' && heroState.action !== 'attacking') {
       animationFrame = stageProgress % 240;
       if (heroState.direction === 'left') {
@@ -35,13 +37,18 @@ class Hero {
       } else {
         spriteSheetRow = 0; // make a new row for neutral state if time allows and edit it here
       }
-    } else if (heroState.action === 'attacking') {
+    // HERO IS ATTACKING
+    } else if (heroState.state !== 'hit' && heroState.action === 'attacking') {
       animationFrame = heroState.recovery * 8;
       if (heroState.direction === 'left') {
         spriteSheetRow = 400;
       } else {
         spriteSheetRow = 300;
       }
+    // HERO IS HIT
+    } else if (heroState.state === 'hit') {
+      animationFrame = heroState.hitstun * 4;
+      spriteSheetRow = 200;
     }
 
     const spriteSheetXPos = Math.floor(animationFrame / 60) * 100
