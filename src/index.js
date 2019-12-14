@@ -5,8 +5,8 @@ import { Controls } from './controls';
 // import Environment from './environment';
 import Hero from './hero';
 import Equipment from './equipment';
-import { spawnMonster, updateMonster, renderAllMonsters } from './monster';
-// import { spawnMonster, updateMonster, monstersOnScreens } from './monster';
+import { spawnMonster, updateMonster, renderAllMonsters, spawnProjectiles } from './monster';
+import { checkIfBeingHit } from './collision';
 
 // GAMEPLAY VARIABLES
 let runTime = 0;
@@ -63,10 +63,16 @@ function runGame () {
 
   // GAME PROGRESS
   spawnMonster(monstersOnScreen, stageProgress);
+  spawnProjectiles(monstersOnScreen, projectilesOnScreen);
 
   // SCREEN OBJECT VALUES UPDATE
   heroState = Game.updateMCState(hero, heroState, keyPress);
   monstersOnScreen = updateMonster(monstersOnScreen, keyPress, moveSpeed);
+  // projectilesOnScreen = updateProjectile();
+
+  // CHECK CONDITIONS
+  checkIfBeingHit(hero, heroState, monstersOnScreen, projectilesOnScreen);
+
 
   // RENDERS
   hero.render(stageProgress, heroState);
@@ -74,7 +80,9 @@ function runGame () {
   renderAllMonsters(ctx, monstersOnScreen, runTime);
 
   // TEST LOGS
-  // console.log(monstersOnScreen);
+  // if (projectilesOnScreen.length > 0) {
+  //   console.log(projectilesOnScreen);
+  // }
 
   // RUN GAME
   requestAnimationFrame(runGame);
