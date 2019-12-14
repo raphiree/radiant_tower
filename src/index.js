@@ -1,75 +1,90 @@
 import './sass/index.scss';
-
-import Environment from './environment/environment';
-import Character from './characters/mainCharacter';
-import Equipment from './characters/equipment';
-import { Controls } from './controls/controls';
-import * as Core from './core/core.js';
-import { displayTitle } from './display/title';
-import { spawnMonster, updateMonster, renderAllhostiles } from './monsters/monster';
-import { checkBeingHit } from './core/collision';
-
-const rootDoc = document.getElementById('root');
-const canvas = document.getElementById('game-canvas');
-const ctx = canvas.getContext("2d");
-
-// BACKGROUND FUNCTIONS
-const keyPress = new Controls();
-// Keypress contains: right/left/up/f - Pressed booleans
+import * as Game from './core.js';
+import { Controls } from './controls';
+// import Environment from './environment';
+import Hero from './hero';
+import Equipment from './equipment';
+import { spawnMonster, updateMonster, renderAllMonsters, spawnProjectiles } from './monster';
+import { checkIfBeingHit } from './collision';
 
 // GAMEPLAY VARIABLES
 let runTime = 0;
 let score = 0;
-let maxHealth = 10;
+let maxHealth = 100;
+
+// BACKGROUND FUNCTIONS
+const keyPress = new Controls();
+// keypress returns: 
+//  rightPressed = true/false
+//  leftPressed = true/false
+//  upPressed = true/false
+//  fPressed = true/false
+//  mcState =  normal/jumping
+//  mcAction = none/attacking
+//  direction = neutral/right/left
 
 // Current state of the game mode being rendered
+let gameover = false;
 let stageProgress = 0;
 let moveSpeed = 5;
-let gameMode = {
-  mode: 'intro',
-  movement: 'free',
-}
-let currentEnvironment = new Environment(gameMode.mode, ctx);
 
-// Hostile objects being rendered
-let onScreen = [];
+// SETUP
+const canvas = document.getElementById('game-canvas');
+const ctx = canvas.getContext("2d");
+
+// BACKGROUND
+
+// let currentEnvironment = new Environment(ctx);
+
+// Monsters objects being rendered
+let monstersOnScreen = [];
+let projectilesOnScreen = [];
 
 // Current state of the main character being rendered
-let mainChar = new Character(ctx);
-let equipment = new Equipment(ctx);
-let mcState = {
+let hero = new Hero(ctx);
+let weapon = new Equipment(ctx);
+let heroState = {
   state: 'normal',
   action: 'none',
   direction: 'right',
   height: 0,
   hitstun: 0,
   recovery: 0,
-  equipment_id: 0,
 };
 
-function runMainGame () { 
-  // GAME VALUES UPDATE
-  runTime = Core.updateRunTime(runTime);
-  stageProgress = Core.updateStageProgress(keyPress, stageProgress, moveSpeed, gameMode);
-  
-  // SCREEN OBJECT VALUES UPDATE
-  mcState = Core.updateMCState(mainChar, mcState, keyPress);
-  onScreen = spawnMonster(onScreen, stageProgress);
-  onScreen = updateMonster(onScreen, keyPress, moveSpeed);
+function runGame () {
+  // CLEAR SCREEN FOR REDRAWING
+  ctx.clearRect(0, 0, 800, 475)
 
-  checkBeingHit(onScreen);
+  // GAME VALUES UPDATE
+  runTime += 1;
+  stageProgress = Game.updateStageProgress(keyPress, stageProgress, moveSpeed);
+
+  // GAME PROGRESS
+  spawnMonster(monstersOnScreen, stageProgress);
+  spawnProjectiles(monstersOnScreen, projectilesOnScreen);
+
+  // SCREEN OBJECT VALUES UPDATE
+  heroState = Game.updateMCState(hero, heroState, keyPress);
+  monstersOnScreen = updateMonster(monstersOnScreen, keyPress, moveSpeed);
+  // projectilesOnScreen = updateProjectile();
+
+  // CHECK CONDITIONS
+  checkIfBeingHit(hero, heroState, monstersOnScreen, projectilesOnScreen);
+
 
   // RENDERS
-  currentEnvironment.render(gameMode, stageProgress);
-  mainChar.render(gameMode, stageProgress, mcState);
-  equipment.render(gameMode, mcState.equipment_id, mcState, stageProgress, mainChar);
-  renderAllhostiles(ctx, onScreen, runTime)
-  
+  hero.render(stageProgress, heroState);
+  weapon.render(heroState, stageProgress, hero);
+  renderAllMonsters(ctx, monstersOnScreen, runTime);
+
   // TEST LOGS
-  // console.log(onScreen)
+  // if (projectilesOnScreen.length > 0) {
+  //   console.log(projectilesOnScreen);
+  // }
 
   // RUN GAME
-  requestAnimationFrame(runMainGame);
+  requestAnimationFrame(runGame);
 }
 
-runMainGame();
+runGame();
