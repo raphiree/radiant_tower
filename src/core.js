@@ -1,3 +1,5 @@
+import { monsterArray } from './monster_db';
+
 export function updateStageProgress(keyPress, stageProgress, moveSpeed, heroState) {
   let currentStageProgress = stageProgress;
   if (keyPress.leftPressed === true && stageProgress > 0) {
@@ -56,4 +58,14 @@ export function updateMCState(mainChar, mcState, keyPress) {
     }
   }
   return newState;
+}
+
+export function updateScore(score, monstersOnScreen) {
+  let currentScore = score;
+  monstersOnScreen.map(monster => {
+    if (monster.state === 'dying' && monster.frame === 0) {
+      currentScore += monsterArray[monster.type].points;
+    }
+  })
+  return currentScore;
 }

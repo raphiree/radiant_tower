@@ -41,6 +41,19 @@ body {
 #root {
   background-color: white;
   margin-top: 30px;
+  height: 475px;
+  position: relative;
+}
+
+#root h2 {
+  position: absolute;
+  top: 60px;
+  width: 500px;
+  left: 150px;
+  color: white;
+  font-family: 'Press Start 2P';
+  font-size: 2.5em;
+  text-align: center;
 }
 
 #explanations h3 {

@@ -17,7 +17,6 @@ class Equipment {
         spriteSheetRow = 0; // make a new row for neutral state if time allows and edit it here
       }
     } else if (mcState.action === 'attacking') {
-      console.log(mcState.recovery);
       animationFrame = mcState.recovery * 8;
       if (mcState.direction === 'left') {
         spriteSheetRow = 400;

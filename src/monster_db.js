@@ -17,7 +17,7 @@ export const monsterArray = {
     width: 50,
     height: 50,
     radius: 25,
-    health: 10,
+    health: 5,
     moveSpeed: 5,
     points: 100,
     yPos: 50,

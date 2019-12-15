@@ -51,11 +51,12 @@ const spawnRate = 100;
 let newScreen = onScreen;
 let monsterTypes = Object.keys(monsterArray).length;
 
+  const spawnSpacing = Math.ceil(Math.random() * 100) + 100
+
   if ( stageProgress > 200
-    && stageProgress % 200 === 0
+    && stageProgress % spawnSpacing === 0
     && Math.floor(Math.random()*100) < spawnRate ) {
-    // let monsterId = Math.floor(Math.random() * monsterTypes);
-    let monsterId = 0;
+    let monsterId = Math.floor(Math.random() * monsterTypes);
     let monster = monsterArray[monsterId];
     let yPos = monster.yPos
 
@@ -133,8 +134,16 @@ export function updateMonster (onScreen, keyPress, moveSpeed) {
         monster.xPos -= properties.moveSpeed;
       }
 
-
-
+      if (monster.health <= 0) {
+        if (monster.state !== 'dying') {
+          monster.state = 'dying';
+          monster.frame = 0;
+        } else if (monster.state === 'dying' && monster.frame < 60) {
+          monster.frame += 1;
+        } else if (monster.state === 'dying' && monster.frame >= 60) {
+          monster.state = 'dead';
+        }
+      }
 
       // Remove monsters out of bounds
       if (monster.xPos >= -250 && monster.state !== 'dead') {

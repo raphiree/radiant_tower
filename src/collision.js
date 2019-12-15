@@ -5,7 +5,7 @@ export function checkIfBeingHit(hero, heroState, monstersOnScreen, projectilesOn
   allHostiles.map(hostile => {
     if (hostile.type === 'projectile') {
       // console.log('pew pew');
-    } else {
+    } else if (hostile.state !== 'dying') {
       const monster = monsterArray[hostile.type];
       monster.centerX = hostile.xPos + monster.radius;
       monster.centerY = hostile.yPos + monster.radius;
@@ -53,8 +53,9 @@ export function checkIfHitting(hero, heroState, monstersOnScreen, ctx) {
       if (distance < (monster.radius + hero.radius + 25)) {
         if (hostile.state === 'normal') {
           hostile.health -= heroState.damage;
+          hostile.frame = 0;
+          hostile.state = 'hit';
         }
-        hostile.state = 'hit';
       }
     })
 
