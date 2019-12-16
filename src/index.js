@@ -14,6 +14,7 @@ import {
 } from './monster';
 import { checkIfBeingHit, checkIfHitting } from './collision';
 import { displayHealthBar, displayGameOver, displayScore, removeGameover } from './displays';
+import { modal } from './modal';
 
 // GAMEPLAY VARIABLES
 let runTime = 0;
@@ -131,4 +132,5 @@ function runGame () {
   requestAnimationFrame(runGame);
 }
 
+modal();
 runGame();

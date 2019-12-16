@@ -15,14 +15,26 @@
 
 <body>
 
+  <content id="modal" className="modal">
+    <content class="modal-content">
+      <span class="close">&times;</span>
+      <h3 class="modal-text">How To Play</h3>
+      <img src="assets/display/controls.gif" class="control-gif">
+      <div class="control-box">
+        <p class="control-explain">
+          Use "AWSD" or the arrow keys to control the character
+        </p>
+        <p class="control-explain">
+          Press the "F" key to unleash a <i>devastating</i> attack
+        </p>
+    </div>
+    </content>
+  </content>
+
   <header id="page-header">
     <h1>Radiant Tower</h1>
     <h4>Now with horizontal towers</h4>
   </header>
-
-  <content id="intro-modal" className="modal">
-    <h3>Instructions</h3>
-  </content>
 
   <content id="root">
     <canvas id="game-canvas" width="800px" height="475px"></canvas>

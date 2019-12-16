@@ -34,10 +34,6 @@ body {
   font-size: 1.5em;
 }
 
-#intro-modal {
-  display: none;
-}
-
 #root {
   background-color: white;
   margin-top: 30px;
@@ -95,6 +91,66 @@ body {
 #root ol li {
   width: 400px;
 }
+
+#modal {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(255, 255, 255, 0.507);
+  z-index: 1;
+}
+
+.modal-content {
+  position: absolute;
+  width: 800px;
+  height: 500px;
+  background-color: white;
+  left: 50%;
+  margin-left: -400px;
+  top: 200px;
+}
+
+.modal-text {
+  font-family: 'Press Start 2P';
+  color: black;
+  font-size: 1.5em;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.close {
+  cursor: pointer;
+  color: black;
+  float: right;
+  font-size: 3em;
+  padding: (0px 10px 0px 0px);
+}
+
+.control-gif {
+  margin-top: 50px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.control-box {
+  width: 800px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+}
+
+.control-explain {
+  text-align: center;
+  width: 300px;
+  font-family: 'Press Start 2P';
+  color: black;
+  font-size: 1em;
+}
+
 
 #explanations h3 {
   font-family: 'Audiowide', cursive;
