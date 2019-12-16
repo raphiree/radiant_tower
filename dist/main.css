@@ -151,25 +151,61 @@ body {
   font-size: 1em;
 }
 
+#explanations {
+  width: 400px;
+}
+
 #explanations h3 {
   font-family: "Audiowide", cursive;
   color: white;
 }
 
-footer {
+#explanations a {
+  text-decoration: none;
+  color: #c7c7c7;
+}
+
+#explanations a:hover {
+  text-decoration: underline;
+  color: white;
+}
+
+#explanations p {
+  font-family: "Source Sans Pro", sans-serif;
+  color: white;
+}
+
+.footer-wrap {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.right-column {
+  width: 400px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.right-column img {
+  padding-left: 25px;
+  padding-top: 50px;
+}
+
+#credits {
+  margin-top: 30px;
   font-size: 4em;
-  width: 800px;
   display: flex;
   justify-content: flex-end;
 }
 
-footer a {
+#credits a {
   color: #a0a0a0;
   text-decoration: none;
   padding-left: 20px;
 }
 
-footer a:hover {
+#credits a:hover {
   color: white;
   transition: 0.3s;
 }

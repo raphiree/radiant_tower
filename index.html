@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Audiowide&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -40,19 +41,49 @@
     <canvas id="game-canvas" width="800px" height="475px"></canvas>
   </content>
 
-  <content id="explanations">
-    <h3>
-      About the game
-    </h3>
-  </content>
-  <footer id="credits">
-    <a href="https://twitter.com/atuesdayheist" class="fa fa-twitter"></a>
-    <a href="https://www.instagram.com/a_tuesday_heist/" class="fa fa-instagram"></a>
-    <a href="https://github.com/raphiree" class="fa fa-github"></a>
-    <a href="https://angel.co/scott-park-5" class="fa fa-angellist"></a>
-    <a href="https://www.linkedin.com/in/parkscott/" class="fa fa-linkedin"></a>
-  </footer>
-
+  <div class="footer-wrap">
+    <content id="explanations">
+      <h3>
+        <a href="https://github.com/raphiree/radiant_tower">About the game</a>
+      </h3>
+      <p>
+        <b>Radiant Tower</b> 
+        is a work-in-progress browser game created in native JavaScript.
+        I plan to add more monsters and stages, 
+        as well as upgrade the art as time allows.
+      </p>
+      <p>
+        What was meant to be a 
+        <a href="https://github.com/raphiree/radiant_tower">5-day project</a> 
+        ended up becoming one of the most stressful and complicated projects 
+        I've ever worked on.
+      </p>
+      <p>
+        Every asset in the game was drawn and animated by me, and while they were
+        extremely time-consuming, and not as detailed as I'd like them to be,
+        watching my drawings rendered into a playable game was absolutely amazing and gratifying. 
+        You can see some of the work in progress art to the right, 
+        as well as look through the game-assets in my 
+        <a href="https://github.com/raphiree/radiant_tower">github</a> repo.
+      </p>
+      <p>
+        I could honestly talk about this game all day. Please feel free to <a href="mailto:contact@scottjpark.com">ask me</a> 
+        if you have any questions.
+      </p>
+    </content>
+    <section class="right-column">
+      <nav id="credits">
+        <a href="https://twitter.com/atuesdayheist" class="fa fa-twitter"></a>
+        <a href="https://www.instagram.com/a_tuesday_heist/" class="fa fa-instagram"></a>
+        <a href="https://github.com/raphiree" class="fa fa-github"></a>
+        <a href="https://angel.co/scott-park-5" class="fa fa-angellist"></a>
+        <a href="https://www.linkedin.com/in/parkscott/" class="fa fa-linkedin"></a>
+      </nav>
+      <a href="assets/display/concept_1.png"><img src="assets/display/concept_1.png" width="350px"></a>
+      <a href="assets/display/concept_3.png"><img src="assets/display/concept_3.png" width="160px" height="170px"></a>
+      <a href="assets/display/concept_2.png"><img src="assets/display/concept_2.png" width="150px"></a>
+    </section>
+    </div>
   <script src="./dist/main.js"></script>
 
 </body>
