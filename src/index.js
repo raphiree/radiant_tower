@@ -87,7 +87,7 @@ function runGame () {
 
     // CHECK CONDITIONS
     monstersOnScreen = checkIfHitting(hero, heroState, monstersOnScreen, ctx);
-    heroState = checkIfBeingHit(hero, heroState, monstersOnScreen, projectilesOnScreen, ctx);
+    heroState = checkIfBeingHit(hero, heroState, monstersOnScreen, projectilesOnScreen, stageProgress);
 
     // RENDERS
     displayHealthBar(ctx, heroState.health);

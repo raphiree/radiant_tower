@@ -51,7 +51,7 @@ const spawnRate = 100;
 let newScreen = onScreen;
 let monsterTypes = Object.keys(monsterArray).length;
 
-  const spawnSpacing = Math.ceil(Math.random() * 100) + 100
+let spawnSpacing = Math.ceil(Math.random() * (100 - (Math.floor(stageProgress / 2000))))
 
   if ( stageProgress > 200
     && stageProgress % spawnSpacing === 0
@@ -78,17 +78,17 @@ let monsterTypes = Object.keys(monsterArray).length;
         })
       }
     } else {
-        newScreen.push({
-          spawnId: stageProgress,
-          type: monsterId,
-          health: monster.health,
-          xPos: 825,
-          yPos: yPos,
-          state: 'normal',
-          frame: 0,
-          attackTime: 60,
-          attackPoint: undefined,
-        })
+      newScreen.push({
+        spawnId: stageProgress,
+        type: monsterId,
+        health: monster.health,
+        xPos: 825,
+        yPos: yPos,
+        state: 'normal',
+        frame: 0,
+        attackTime: 60,
+        attackPoint: undefined,
+      })
     }
   }
   return newScreen;
@@ -101,6 +101,16 @@ export function updateMonster (onScreen, keyPress, moveSpeed, heroState) {
       let properties = monsterArray[monster.type];
       (keyPress.rightPressed) ? monster.xPos -= moveSpeed : monster.xPos;
       (keyPress.leftPressed) ? monster.xPos += moveSpeed : monster.xPos;
+
+      if (heroState.state === 'hit' && heroState.hitstun === 1) {
+        monster.xPos += 20;
+      }
+      if (heroState.state === 'hit' && heroState.hitstun === 20) {
+        monster.xPos += 20;
+      }
+      if (heroState.state === 'hit' && heroState.hitstun === 40) {
+        monster.xPos += 20;
+      }
 
       if (monster.state === 'hit') {
         if (monster.frame > 60) {

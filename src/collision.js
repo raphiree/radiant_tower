@@ -1,6 +1,6 @@
 import { monsterArray } from './monster_db';
 
-export function checkIfBeingHit(hero, heroState, monstersOnScreen, projectilesOnScreen, ctx) {
+export function checkIfBeingHit(hero, heroState, monstersOnScreen, projectilesOnScreen, stageProgress) {
   let allHostiles = monstersOnScreen.concat(projectilesOnScreen);
   allHostiles.map(hostile => {
     if (hostile.type === 'projectile') {
@@ -24,13 +24,15 @@ export function checkIfBeingHit(hero, heroState, monstersOnScreen, projectilesOn
       monster.centerX = hostile.xPos + monster.radius;
       monster.centerY = hostile.yPos + monster.radius;
       
+      let damageModifier = (Math.floor(stageProgress / 2000));
+
       const dx = Math.abs(hero.centerX - monster.centerX);
       const dy = Math.abs((hero.centerY - heroState.height) - monster.centerY);
       const distance = Math.sqrt((dx * dx) + (dy * dy));
 
       if (distance < (monster.radius + hero.radius)) {
         if (heroState.state === 'normal') {
-          heroState.health -= monster.damage;
+          heroState.health -= (monster.damage + damageModifier);
         }
         heroState.state = 'hit';
       }

@@ -9,7 +9,15 @@ export function updateStageProgress(keyPress, stageProgress, moveSpeed, heroStat
   }
 
   if (heroState.state === 'hit' && heroState.hitstun === 1) {
-    currentStageProgress -= 10;
+    currentStageProgress -= 20;
+  }
+
+  if (heroState.state === 'hit' && heroState.hitstun === 20) {
+    currentStageProgress -= 20;
+  }
+
+  if (heroState.state === 'hit' && heroState.hitstun === 40) {
+    currentStageProgress -= 20;
   }
 
   return currentStageProgress;
