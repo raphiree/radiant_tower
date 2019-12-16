@@ -1,7 +1,7 @@
 import './sass/index.scss';
 import * as Game from './core.js';
 import { Controls } from './controls';
-// import Environment from './environment';
+import { renderBackground } from './backgrounds';
 import Hero from './hero';
 import Equipment from './equipment';
 import { 
@@ -85,6 +85,7 @@ function runGame () {
     heroState = checkIfBeingHit(hero, heroState, monstersOnScreen, projectilesOnScreen, ctx);
 
     // RENDERS
+    renderBackground(ctx, stageProgress);
     hero.render(stageProgress, heroState);
     weapon.render(heroState, stageProgress, hero);
     renderAllMonsters(ctx, monstersOnScreen, runTime);
