@@ -20,6 +20,44 @@ function renderWall (ctx, stageProgress) {
   })
 }
 
+function renderFloor(ctx, stageProgress) {
+  const floor = new Image();
+  floor.src = "assets/bg/tiles2.png";
+  let startPos = Math.floor((stageProgress % 4)) * 800;
+
+  ctx.drawImage(
+    floor,
+    startPos, 0, // start x, start y
+    800, 200, // start width, start height 
+    0, 330, // canvas position, x and y 
+    800, 200 // canvas display width, height
+  )
+}
+
+function renderCeiling(ctx, stageProgress) {
+  const ceiling = new Image();
+  ceiling.src = "assets/bg/ceiling.png";
+  let startPos = Math.floor((stageProgress % 52));
+
+  ctx.drawImage(
+    ceiling,
+    startPos, 0, // start x, start y
+    800, 52, // start width, start height 
+    0, 0, // canvas position, x and y 
+    800, 52 // canvas display width, height
+  )
+
+  ctx.drawImage(
+    ceiling,
+    startPos, 0, // start x, start y
+    800, 52, // start width, start height 
+    0, 459, // canvas position, x and y 
+    800, 52 // canvas display width, height
+  )
+}
+
 export function renderBackground(ctx, stageProgress) {
   renderWall(ctx, stageProgress);
+  renderFloor(ctx, stageProgress);
+  renderCeiling(ctx, stageProgress);
 }

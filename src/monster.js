@@ -72,6 +72,8 @@ let monsterTypes = Object.keys(monsterArray).length;
           yPos: yPos,
           state: 'normal',
           frame: startFrame,
+          attackTime: 60,
+          attackPoint: undefined,
         })
       }
     } else {
@@ -83,13 +85,15 @@ let monsterTypes = Object.keys(monsterArray).length;
           yPos: yPos,
           state: 'normal',
           frame: 0,
+          attackTime: 60,
+          attackPoint: undefined,
         })
     }
   }
   return newScreen;
 }
 
-export function updateMonster (onScreen, keyPress, moveSpeed) {
+export function updateMonster (onScreen, keyPress, moveSpeed, heroState) {
   let newScreen = [];
   if (onScreen.length > 0) {
     onScreen.map(monster => {
@@ -107,9 +111,25 @@ export function updateMonster (onScreen, keyPress, moveSpeed) {
       }
 
       // Diving Bird
-      if (monster.type === 1 && monster.xPos < 480) {
-        monster.xPos -= 4;
-        monster.yPos += 7;
+      if (monster.type === 1) {
+        if (monster.attackPoint === undefined) {
+          monster.attackPoint = Math.random() * 350 + 400;
+        } else if (monster.xPos < monster.attackPoint) {
+          monster.state = 'attacking';
+          const heroX = 200;
+          const heroY = 375 - heroState.height;
+
+          if (monster.attackTime > 0) {
+            let xMove = Math.floor(Math.abs(monster.xPos - heroX) / monster.attackTime);
+            let yMove = Math.floor(Math.abs(monster.yPos - heroY) / monster.attackTime);
+            monster.xPos -= xMove;
+            monster.yPos += yMove;  
+            monster.attackTime -= 1
+          } else {
+            monster.xPos -= 5;
+          }
+        }
+
       // Dropping Rock
       } else if (monster.type === 2) {
         if (monster.state === 'normal' && monster.xPos < 310) {
@@ -162,12 +182,50 @@ export function spawnProjectiles(onScreen, projectiles) {
       let bullet = {
         type: 'projectile',
         xPos: monster.xPos,
-        yPos: monster.yPos + 25,
+        yPos: monster.yPos,
+        frame: 0,
+        radius: 5,
       }
       newProjectiles.push(bullet);
     }
   })
   return newProjectiles;
+}
+
+export function updateProjectiles(projectilesOnScreen, keyPress, moveSpeed) {
+  let newProjectiles = [];
+  if (projectilesOnScreen.length > 0) {
+    projectilesOnScreen.map(projectile => {
+      (keyPress.rightPressed) ? projectile.xPos -= moveSpeed : projectile.xPos;
+      (keyPress.leftPressed) ? projectile.xPos += moveSpeed : projectile.xPos;
+      projectile.xPos -= 3;
+      projectile.frame += 1;
+      // Remove projectiles out of bounds
+      if (projectile.xPos >= -100 && projectile.state !== 'dead') {
+        newProjectiles.push(projectile);
+      }
+
+    })
+  }
+  return newProjectiles;
+}
+
+export function renderProjectiles(ctx, projectilesOnScreen) {
+  let projectile = new Image();
+  projectile.src = "assets/critters/projectile.png"
+
+  projectilesOnScreen.map(bullet => {
+    let startFrame = Math.floor((bullet.frame % 60 / 15)) * 50;
+    ctx.drawImage(
+      projectile,
+      startFrame, 0, // start x, start y
+      50, 50, // start width, start height 
+      bullet.xPos,
+      bullet.yPos, // canvas position, x and y 
+      50, 50 // canvas display width, height
+    );
+  })
+
 }
 
 export function renderAllMonsters(ctx, onScreen, runTime, heroState) {

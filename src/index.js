@@ -8,7 +8,9 @@ import {
   spawnMonster, 
   updateMonster, 
   renderAllMonsters, 
-  spawnProjectiles, 
+  spawnProjectiles,
+  updateProjectiles,
+  renderProjectiles,
 } from './monster';
 import { checkIfBeingHit, checkIfHitting } from './collision';
 import { displayHealthBar, displayGameOver, displayScore } from './displays';
@@ -70,6 +72,9 @@ function runGame () {
     runTime += 1;
     stageProgress = Game.updateStageProgress(keyPress, stageProgress, moveSpeed, heroState);
 
+    // SETUP GAME VALUES/ENVIRONMENT
+    renderBackground(ctx, stageProgress);
+
     // GAME PROGRESS
     spawnMonster(monstersOnScreen, stageProgress);
     spawnProjectiles(monstersOnScreen, projectilesOnScreen);
@@ -77,26 +82,29 @@ function runGame () {
     // SCREEN OBJECT VALUES UPDATE
     score = Game.updateScore(score, monstersOnScreen);
     heroState = Game.updateMCState(hero, heroState, keyPress);
-    monstersOnScreen = updateMonster(monstersOnScreen, keyPress, moveSpeed);
-    // projectilesOnScreen = updateProjectile();
+    monstersOnScreen = updateMonster(monstersOnScreen, keyPress, moveSpeed, heroState);
+    projectilesOnScreen = updateProjectiles(projectilesOnScreen, keyPress, moveSpeed);
 
     // CHECK CONDITIONS
     monstersOnScreen = checkIfHitting(hero, heroState, monstersOnScreen, ctx);
     heroState = checkIfBeingHit(hero, heroState, monstersOnScreen, projectilesOnScreen, ctx);
 
     // RENDERS
-    renderBackground(ctx, stageProgress);
+    displayHealthBar(ctx, heroState.health);
+    displayScore(ctx, score);
     hero.render(stageProgress, heroState);
     weapon.render(heroState, stageProgress, hero);
     renderAllMonsters(ctx, monstersOnScreen, runTime);
-    displayHealthBar(ctx, heroState.health);
-    displayScore(ctx, score);
+    renderProjectiles(ctx, projectilesOnScreen);
 
     // CHECK IF GAME OVER
     if (heroState.health <= 0) { gameover = true; runTime = 0; }
 
     // TEST LOGS
-  
+    // if (monstersOnScreen.length > 0) {
+    //   console.log(monstersOnScreen[0])
+    // }
+
     // RUN GAME
   } else {
     displayGameOver(ctx, runTime);
