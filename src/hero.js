@@ -19,10 +19,11 @@ class Hero {
   render(stageProgress, heroState) {
 
     // Just to check hitbox
-    this.ctx.beginPath();
-    this.ctx.arc(this.centerX, this.centerY - heroState.height, this.radius, 0, 2 * Math.PI);
-    this.ctx.fillStyle = 'rgba(46, 166, 32, 0.6)';
-    this.ctx.fill();
+    // this.ctx.beginPath();
+    // this.ctx.arc(this.centerX, this.centerY - heroState.height, this.radius, 0, 2 * Math.PI);
+    // this.ctx.fillStyle = 'rgba(46, 166, 32, 0.6)';
+    // this.ctx.fill();
+    // this.ctx.closePath();
 
 
     let spriteSheetRow; // multiples of 100
