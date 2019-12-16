@@ -7,6 +7,7 @@ export function Controls(stageProgress) {
   self.mcState =  'normal'; 
   self.mcAction = 'none';
   self.direction = 'neutral';
+  self.restart = false;
   document.addEventListener("keydown", keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
   
@@ -23,6 +24,8 @@ export function Controls(stageProgress) {
     } else if (e.key === "f") {
       self.mcAction = 'attacking';
       self.fPressed = true;
+    } else if (e.key === "Enter") {
+      self.restart = true;
     }
   }
   
@@ -37,6 +40,8 @@ export function Controls(stageProgress) {
     } else if (e.key === "f") {
       self.fPressed = false;
       self.mcAction = 'none';
+    } else if (e.key === "Enter") {
+      self.restart = false;
     }
   }
 }

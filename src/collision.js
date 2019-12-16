@@ -34,11 +34,11 @@ export function checkIfBeingHit(hero, heroState, monstersOnScreen, projectilesOn
         }
         heroState.state = 'hit';
       }
-
-      ctx.beginPath();
-      ctx.arc(monster.centerX, monster.centerY, monster.radius, 0, 2 * Math.PI);
-      ctx.fillStyle = 'rgba(166, 32, 32, 0.6)';
-      ctx.fill();
+      // DISPLAY HITBOX
+      // ctx.beginPath();
+      // ctx.arc(monster.centerX, monster.centerY, monster.radius, 0, 2 * Math.PI);
+      // ctx.fillStyle = 'rgba(166, 32, 32, 0.6)';
+      // ctx.fill();
     }
   })
   return heroState;
@@ -48,10 +48,11 @@ export function checkIfHitting(hero, heroState, monstersOnScreen, ctx) {
   let newOnScreen = monstersOnScreen;
   if (heroState.action === 'attacking') {
 
-    ctx.beginPath();
-    ctx.arc(hero.centerX, hero.centerY - heroState.height + 14, hero.radius + 50, 0, 2 * Math.PI);
-    ctx.fillStyle = 'rgba(180, 191, 63, 0.6)';
-    ctx.fill();
+    // DISPLAY HURTBOX
+    // ctx.beginPath();
+    // ctx.arc(hero.centerX, hero.centerY - heroState.height + 14, hero.radius + 50, 0, 2 * Math.PI);
+    // ctx.fillStyle = 'rgba(180, 191, 63, 0.6)';
+    // ctx.fill();
 
     newOnScreen.map(hostile => {
       const monster = monsterArray[hostile.type];
@@ -62,8 +63,8 @@ export function checkIfHitting(hero, heroState, monstersOnScreen, ctx) {
       const dy = Math.abs((hero.centerY - heroState.height + 14) - monster.centerY);
       const distance = Math.sqrt((dx * dx) + (dy * dy));
 
-      if (distance < (monster.radius + hero.radius + 50)) {
-        if (hostile.state !== 'hit') {
+      if (distance < (monster.radius + hero.radius + 40)) {
+        if (hostile.state === 'normal' || hostile.state === 'attacking') {
           hostile.health -= heroState.damage;
           hostile.frame = 0;
           hostile.state = 'hit';

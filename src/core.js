@@ -63,9 +63,21 @@ export function updateMCState(mainChar, mcState, keyPress) {
 export function updateScore(score, monstersOnScreen) {
   let currentScore = score;
   monstersOnScreen.map(monster => {
-    if (monster.state === 'dying' && monster.frame === 0) {
+    if (monster.state === 'dead' && monster.frame === 1) {
       currentScore += monsterArray[monster.type].points;
     }
   })
   return currentScore;
+}
+
+export function sortHighScore(score, highScore, runTime) {
+  if (runTime === 1) {
+    if (highScore.length < 5) {
+      highScore.push(score);
+    } else if (Math.min(...highScore) < score) {
+      highScore.pop();
+      highScore.push(score);;
+    }
+  }
+  return highScore.sort(function(a, b){return b-a});
 }

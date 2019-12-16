@@ -13,13 +13,13 @@ import {
   renderProjectiles,
 } from './monster';
 import { checkIfBeingHit, checkIfHitting } from './collision';
-import { displayHealthBar, displayGameOver, displayScore } from './displays';
+import { displayHealthBar, displayGameOver, displayScore, removeGameover } from './displays';
 
 // GAMEPLAY VARIABLES
 let runTime = 0;
 let maxHealth = 100;
 let score = 0;
-let highScore = [];
+let highScore = [0,0,0,0,0];
 
 // BACKGROUND FUNCTIONS
 const keyPress = new Controls();
@@ -101,14 +101,32 @@ function runGame () {
     if (heroState.health <= 0) { gameover = true; runTime = 0; }
 
     // TEST LOGS
-    // if (monstersOnScreen.length > 0) {
-    //   console.log(monstersOnScreen[0])
-    // }
 
     // RUN GAME
   } else {
-    displayGameOver(ctx, runTime);
+    Game.sortHighScore(score, highScore, runTime);
+    displayGameOver(ctx, runTime, highScore);
     runTime += 1;
+
+    if (keyPress.restart === true) {
+      gameover = false;
+      runTime = 0;
+      heroState = {
+        health: maxHealth,
+        state: 'normal',
+        action: 'none',
+        direction: 'right',
+        height: 0,
+        hitstun: 0,
+        recovery: 0,
+        damage: 5,
+      };
+      score = 0;
+      stageProgress = 0;
+      monstersOnScreen = [];
+      projectilesOnScreen = [];
+      removeGameover();
+    };
   }
   requestAnimationFrame(runGame);
 }

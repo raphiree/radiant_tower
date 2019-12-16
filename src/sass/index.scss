@@ -56,6 +56,46 @@ body {
   text-align: center;
 }
 
+#root h3 {
+  position: absolute;
+  top: 140px;
+  width: 500px;
+  left: 150px;
+  color: white;
+  font-family: 'Press Start 2P';
+  font-size: 1.5em;
+  text-align: center;
+}
+
+#root h4 {
+  position: absolute;
+  top: 400px;
+  width: 500px;
+  left: 150px;
+  color: white;
+  font-family: 'Press Start 2P';
+  font-size: 1em;
+  text-align: center;
+}
+
+#root ol {
+  position: absolute;
+  top: 190px;
+  width: 800px;
+  left: 0px;
+  color: white;
+  font-family: 'Press Start 2P';
+  font-size: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#root ol li {
+  width: 400px;
+}
+
 #explanations h3 {
   font-family: 'Audiowide', cursive;
   color: white;

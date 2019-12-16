@@ -57,6 +57,7 @@ let monsterTypes = Object.keys(monsterArray).length;
     && stageProgress % spawnSpacing === 0
     && Math.floor(Math.random()*100) < spawnRate ) {
     let monsterId = Math.floor(Math.random() * monsterTypes);
+    // let monsterId = 1;
     let monster = monsterArray[monsterId];
     let yPos = monster.yPos
 
@@ -114,19 +115,24 @@ export function updateMonster (onScreen, keyPress, moveSpeed, heroState) {
       if (monster.type === 1) {
         if (monster.attackPoint === undefined) {
           monster.attackPoint = Math.random() * 350 + 400;
-        } else if (monster.xPos < monster.attackPoint) {
-          monster.state = 'attacking';
-          const heroX = 200;
-          const heroY = 375 - heroState.height;
-
-          if (monster.attackTime > 0) {
-            let xMove = Math.floor(Math.abs(monster.xPos - heroX) / monster.attackTime);
-            let yMove = Math.floor(Math.abs(monster.yPos - heroY) / monster.attackTime);
-            monster.xPos -= xMove;
-            monster.yPos += yMove;  
-            monster.attackTime -= 1
-          } else {
-            monster.xPos -= 5;
+        } else if (monster.state === 'dying' || monster.state === 'hit') {
+          monster.yPos += 10;
+          monster.xPos += 2;
+        } else {
+          if (monster.state === 'normal' && monster.xPos < monster.attackPoint) {
+            monster.state = 'attacking';
+          } else if (monster.state === 'attacking') {
+            const heroX = 200;
+            const heroY = 375 - heroState.height;
+            if (monster.attackTime > 0) {
+              let xMove = Math.floor(Math.abs(monster.xPos - heroX) / monster.attackTime);
+              let yMove = Math.floor(Math.abs(monster.yPos - heroY) / monster.attackTime);
+              monster.xPos -= xMove;
+              monster.yPos += yMove;  
+              monster.attackTime -= 1
+            } else {
+              monster.xPos -= 5;
+            }
           }
         }
 
@@ -134,7 +140,7 @@ export function updateMonster (onScreen, keyPress, moveSpeed, heroState) {
       } else if (monster.type === 2) {
         if (monster.state === 'normal' && monster.xPos < 310) {
           monster.state = 'attacking';
-        } else if (monster.state === 'attacking') {
+        } else if (monster.state !== 'normal') {
           monster.yPos += 10;
         } else {
           monster.xPos -= properties.moveSpeed;
@@ -155,19 +161,27 @@ export function updateMonster (onScreen, keyPress, moveSpeed, heroState) {
       }
 
       if (monster.health <= 0) {
-        if (monster.state !== 'dying') {
-          monster.state = 'dying';
+        if (monster.state === 'normal' || monster.state === 'attacking') {
+          if (monster.type === 0) {
+            monster.state = 'dying';
+          } else {
+            monster.state = 'dead';
+          }
           monster.frame = 0;
-        } else if (monster.state === 'dying' && monster.frame < 60) {
-          monster.frame += 1;
-        } else if (monster.state === 'dying' && monster.frame >= 60) {
+        } else if (monster.state === 'dying' && monster.frame > 60) {
           monster.state = 'dead';
-        }
+          monster.frame = 0;
+        } 
+        monster.frame += 1;
       }
 
       // Remove monsters out of bounds
-      if (monster.xPos >= -250 && monster.state !== 'dead') {
-        newScreen.push(monster);
+      if (monster.xPos >= -250) {
+        if (monster.state !== 'dead') {
+          newScreen.push(monster);
+        } else if (monster.state === 'dead' && monster.frame < 60) {
+          newScreen.push(monster);
+        }
       }
 
     })
