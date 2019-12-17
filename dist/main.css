@@ -151,6 +151,14 @@ body {
   font-size: 1em;
 }
 
+.control-start {
+  text-align: center;
+  width: 800px;
+  font-family: "Press Start 2P";
+  color: black;
+  font-size: 1em;
+}
+
 #explanations {
   width: 400px;
 }

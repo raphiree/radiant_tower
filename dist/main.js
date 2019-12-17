@@ -190,7 +190,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _sas
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"modal\", function() { return modal; });\nfunction modal() {\n  var modal = document.getElementById('modal');\n  document.addEventListener(\"click\", function (e) {\n    if (e.target === modal) {\n      modal.style.display = 'none';\n    }\n  });\n  var xButton = document.getElementsByClassName(\"close\")[0];\n  xButton.addEventListener(\"click\", function (e) {\n    modal.style.display = 'none';\n  });\n}\n\n//# sourceURL=webpack:///./src/modal.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"modal\", function() { return modal; });\nfunction modal() {\n  var modal = document.getElementById('modal');\n  document.addEventListener(\"click\", function (e) {\n    if (e.target === modal) {\n      modal.style.display = 'none';\n    }\n  });\n  document.addEventListener(\"keydown\", function (e) {\n    if (e.key === \"Enter\" || e.key === \"Escape\") {\n      modal.style.display = 'none';\n    }\n  });\n  var xButton = document.getElementsByClassName(\"close\")[0];\n  xButton.addEventListener(\"click\", function (e) {\n    modal.style.display = 'none';\n  });\n}\n\n//# sourceURL=webpack:///./src/modal.js?");
 
 /***/ }),
 
