@@ -102,14 +102,8 @@ export function updateMonster (onScreen, keyPress, moveSpeed, heroState) {
       (keyPress.rightPressed) ? monster.xPos -= moveSpeed : monster.xPos;
       (keyPress.leftPressed) ? monster.xPos += moveSpeed : monster.xPos;
 
-      if (heroState.state === 'hit' && heroState.hitstun === 1) {
-        monster.xPos += 20;
-      }
-      if (heroState.state === 'hit' && heroState.hitstun === 20) {
-        monster.xPos += 20;
-      }
-      if (heroState.state === 'hit' && heroState.hitstun === 40) {
-        monster.xPos += 20;
+      if (heroState.state === 'hit') {
+        monster.xPos += 0.2;
       }
 
       if (monster.state === 'hit') {
